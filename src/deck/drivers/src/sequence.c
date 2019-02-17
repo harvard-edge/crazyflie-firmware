@@ -28,56 +28,67 @@ static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, 
   setpoint->velocity_body = true;
 }
 
+
+/**
+ * Takes in commands of the form of an array. Each array will be read
+ * in the format 
+ *  x_dst, y_dst, z, yawRate, time (ms) to give that command, ...
+ * x_dst controls forward and back, positive goes forward, negative goes back
+ * y_dst controls left and right, positive goes left, negative goes right
+ * n represents how many tuples of 5 numbers there are.
+ */
+static void commandsToSequence(setpoint_t *setpoint, float* cmds, int n) {
+  for (int i = 0; i < n; i++) {
+    float dx       = cmds[5 * i + 0];
+    float dy       = cmds[5 * i + 1];
+    float z        = cmds[5 * i + 2];
+    float yawrate  = cmds[5 * i + 3];
+    float cmd_time = cmds[5 * i + 4];
+
+    for (int j = 0; j < cmd_time / 100; j++) {
+      setHoverSetpoint(setpoint, dx, dy, z, yawrate);
+      commanderSetSetpoint(setpoint, 3);
+      vTaskDelay(M2T(100));
+    }
+  }
+}
+
 static void sequenceTask()
 {
   static setpoint_t setpoint;
-  int i = 0;
 
   systemWaitStart();
 
   vTaskDelay(M2T(1000));
   DEBUG_PRINT("Starting sequence ...\n");
 
-  // hover for first 2 seconds to 0.2 meters
-  for (i = 0; i < 20; i++) {
-    setHoverSetpoint(&setpoint, 0, 0, 0.2, 0);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
+  /*
+  // this floats and goes in one circle, then lands
+  float commands[] = {
+    0, 0, 0.2, 0, 2000,
+    0, 0, 0.5, 0, 4000,
+    0.8, 0, 0.5, 72.0, 8000,
+    0, 0, 0.5, 0, 2000,
+    0, 0, 0.3, 0, 1000,
+    0, 0, 0.1, 0, 1000,
+  };
+  int num_commands = 6;
+  */
 
-  // hover for 2 seconds to 0.4 meters
-  for (i = 0; i < 20; i++) {
-    setHoverSetpoint(&setpoint, 0, 0, 0.4, 0);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
+  float commands[] = {
+    0, 0, 0.6, 0, 4000,
+    0, 0, 1.2, 0, 4000,
+    0.5, 0, 1.2, 0, 2000,
+    -0.5, 0, 1.2, 0, 2000,
+    0, 0.5, 1.2, 0, 2000,
+    0, -0.5, 1.2, 0, 2000,
+    0, 0, 1.2, 0, 3000,
+    0, 0, 0.6, 0, 3000,
+    0, 0, 0.3, 0, 3000,
+  };
+  int num_commands = 9;
 
-  // go 0.2 meters to the positive x axis with yawrate
-  // 72, which is basically speed 
-  for (i = 0; i < 50; i++) {
-    setHoverSetpoint(&setpoint, 0.2, 0, 0.4, 72);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
-
-  for (i = 0; i < 50; i++) {
-    setHoverSetpoint(&setpoint, 0.2, 0, 0.4, -72);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
-
-  for (i = 0; i < 30; i++) {
-    setHoverSetpoint(&setpoint, 0, 0, 0.4, 0);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
-
-  // go to 0.2 meters first to land gracefully
-  for (i = 0; i < 30; i++) {
-    setHoverSetpoint(&setpoint, 0, 0, 0.2, 0);
-    commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(100));
-  }
+  commandsToSequence(&setpoint, commands, num_commands);
 
   // end of routine.
   for (;;) {

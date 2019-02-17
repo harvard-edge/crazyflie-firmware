@@ -193,6 +193,10 @@ PROJ_OBJ += lighthouse.o
 # Add our TF-Micro demo into compiled as a deck
 # also force the crazyflie to load our sequence
 PROJ_OBJ += sequence.o
+PROJ_OBJ += sequenceranger.o
+
+CFLAGS += -DDECK_FORCE=bcSequence
+
 
 ifeq ($(LPS_TDOA_ENABLE), 1)
 CFLAGS += -DLPS_TDOA_ENABLE
