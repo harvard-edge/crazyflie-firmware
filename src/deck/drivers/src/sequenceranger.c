@@ -3,14 +3,23 @@ attached FlowDeck and get measurements. */
 #include "deck.h"
 #include "system.h"
 #include "commander.h"
+#include "range.h"  // get the 6axis distance measurements
 
 #include "FreeRTOS.h"
 #include "task.h"
 
-
 #include "debug.h"
 
 #define DEBUG_MODULE "SEQ"
+
+// Gets the ranges from the multiranger deck extension
+// in meters.
+static void getRanges(float *front, float *back, float *left, float *right) {
+  *front = rangeGet(rangeFront);
+  *back = rangeGet(rangeBack);
+  *left = rangeGet(rangeLeft);
+  *right = rangeGet(rangeRight);
+}
 
 static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate)
 {
