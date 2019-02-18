@@ -195,7 +195,7 @@ PROJ_OBJ += lighthouse.o
 PROJ_OBJ += sequence.o
 PROJ_OBJ += sequenceranger.o
 
-CFLAGS += -DDECK_FORCE=bcSequence
+CFLAGS += -DDECK_FORCE=tfclassic
 
 
 ifeq ($(LPS_TDOA_ENABLE), 1)

@@ -46,11 +46,56 @@ static void sequenceRangerTask()
   vTaskDelay(M2T(1000));
   DEBUG_PRINT("Starting sequence ...\n");
 
-  float front, back, left, right;
+  float HOVER_HEIGHT = 1.1;
+  float ESCAPE_SPEED = 0.5;
+  
+  
+  for (int i = 0; i < 30; i++) {
+    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT/2.0f, 0); 
+    commanderSetSetpoint(&setpoint, 3);
+    vTaskDelay(M2T(100));
+  }
 
-  for (int j = 0; j < 100; j++) {
+  for (int i = 0; i < 30; i++) {
+    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0); 
+    commanderSetSetpoint(&setpoint, 3);
+    vTaskDelay(M2T(100));
+  }
+
+
+  float front, back, left, right;
+  float MIN_DISTANCE = 500.0;  // distance until you 
+  for (int j = 0; j < 500; j++) {
     getRanges(&front, &back, &left, &right);
-    setHoverSetpoint(&setpoint, 0, 0, 0.9, 200);
+    consolePrintf("Ranges: %f  %f  %f  %f \n", 
+      (double) front, (double) back, (double) left, (double) right);
+    if (front < MIN_DISTANCE) {
+      setHoverSetpoint(&setpoint, -ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+      consolePrintf("Avoiding object from front\n");
+    } else if (back < MIN_DISTANCE) {
+      setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+      consolePrintf("Avoiding object from back\n");
+    } else if (left < MIN_DISTANCE) {
+      setHoverSetpoint(&setpoint, 0, -ESCAPE_SPEED, HOVER_HEIGHT, 0);
+      consolePrintf("Avoiding object from left\n");
+    } else if (right < MIN_DISTANCE) {
+      setHoverSetpoint(&setpoint, 0, ESCAPE_SPEED, HOVER_HEIGHT, 0);
+      consolePrintf("Avoiding object from right\n");
+    } else {
+      setHoverSetpoint(&setpoint, 0, 0, 1.2, 0);
+    }
+    commanderSetSetpoint(&setpoint, 3);
+    vTaskDelay(M2T(100));
+  }
+  
+  for (int i = 0; i < 30; i++) {
+    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT/2.0f, 0); 
+    commanderSetSetpoint(&setpoint, 3);
+    vTaskDelay(M2T(100));
+  }
+
+  for (int i = 0; i < 30; i++) {
+    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT/4.0f, 0); 
     commanderSetSetpoint(&setpoint, 3);
     vTaskDelay(M2T(100));
   }
