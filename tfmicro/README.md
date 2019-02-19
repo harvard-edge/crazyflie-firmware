@@ -18,3 +18,18 @@ We will be trying to use fully connected layers, and for testing we will train
 a few models of varying size in `./train` and make sure that they work in
 the regular C++ Tensorflow Lite environment.
 
+## Testing out on Laptop
+
+Since we are compiling tf-micro for ARM to deploy on the crazyflie, in order
+to test the linking on computer it may be worth it to run the binary using
+an emulator.
+
+```bash
+sudo apt get install qemu   # Ubuntu using APT
+```
+
+Then, you can run the binaries with
+
+```bash
+qemu-arm tfmicrotest
+```

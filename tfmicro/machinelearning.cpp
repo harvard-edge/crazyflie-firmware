@@ -18,7 +18,7 @@ in C++, and then link it to the main loop later.
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
-int main(int argc, char* argv[]) {
+extern "C" int advanced_machine_learning() {
   tflite::ErrorReporter* error_reporter = &micro_error_reporter;
 
   // Map the model into a usable data structure. This doesn't involve any
@@ -118,6 +118,9 @@ int main(int argc, char* argv[]) {
       error_reporter->Report("Heard %s (%d)", found_command, score);
     }
   }
-
   return 0;
+}
+
+extern "C" int testDoubleFunction(int x) {
+  return x * 2;
 }
