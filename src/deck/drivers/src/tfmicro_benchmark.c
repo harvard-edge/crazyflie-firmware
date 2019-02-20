@@ -1,5 +1,5 @@
-/* TFMicro Test Script: Tests to see if we can control the motors using the
-attached FlowDeck and get measurements. */
+/* TFMicro Test Script: Tests to see the delay incurred by TF-Micro and
+how fast the chip can process these neural networks */
 #include "deck.h"
 #include "system.h"
 #include "commander.h"
@@ -12,14 +12,6 @@ attached FlowDeck and get measurements. */
 
 #define DEBUG_MODULE "SEQ"
 
-// Gets the ranges from the multiranger deck extension
-// in meters.
-static void getRanges(float *front, float *back, float *left, float *right) {
-  *front = rangeGet(rangeFront);
-  *back = rangeGet(rangeBack);
-  *left = rangeGet(rangeLeft);
-  *right = rangeGet(rangeRight);
-}
 
 static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate)
 {
