@@ -1,0 +1,6 @@
+model_checkpoint_path: "twolayer_20_20.ckpt-12000"
+all_model_checkpoint_paths: "twolayer_20_20.ckpt-11600"
+all_model_checkpoint_paths: "twolayer_20_20.ckpt-11700"
+all_model_checkpoint_paths: "twolayer_20_20.ckpt-11800"
+all_model_checkpoint_paths: "twolayer_20_20.ckpt-11900"
+all_model_checkpoint_paths: "twolayer_20_20.ckpt-12000"

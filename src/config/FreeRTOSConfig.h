@@ -78,7 +78,8 @@
 #define configTICK_RATE_HZ			( ( portTickType ) configTICK_RATE_HZ_RAW )
 #define configMINIMAL_STACK_SIZE	( ( unsigned short ) FREERTOS_MIN_STACK_SIZE )
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( FREERTOS_HEAP_SIZE ) )
-#define configMAX_TASK_NAME_LEN		( 10 )
+//TFMICRO edit
+#define configMAX_TASK_NAME_LEN		( 20 )
 #define configUSE_16_BIT_TICKS		0
 #define configIDLE_SHOULD_YIELD		0
 #define configUSE_CO_ROUTINES 		0

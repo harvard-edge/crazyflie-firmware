@@ -108,6 +108,24 @@ endif
 # Crazyflie sources
 VPATH += src/init src/hal/src src/modules/src src/utils/src src/drivers/bosch/src src/drivers/src src/platform
 
+######################### TF Micro Compilation ##################
+# Need to compile TF Micro with some limited C++-11 support
+# and standard libraries for math.
+# Add all subdirectories to the include path so we have these headers
+VPATH += tfmicro
+VPATH += tfmicro/third_party
+VPATH += tfmicro/third_party/flatbuffers
+VPATH += tfmicro/third_party/gemmlowp
+VPATH += tfmicro/tensorflow/lite/core/api
+VPATH += tfmicro/tensorflow/lite/c
+VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
+VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
+VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
+VPATH += tfmicro/tensorflow/lite/experimental/micro
+VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
+VPATH += tfmicro/tensorflow/lite/kernels/internal
+VPATH += tfmicro/tensorflow/lite/kernels
+
 
 ############### Source files configuration ################
 
@@ -190,6 +208,64 @@ PROJ_OBJ += oa.o
 PROJ_OBJ += multiranger.o
 PROJ_OBJ += lighthouse.o
 
+
+
+######################### TF Micro Compilation ##################
+# Add custom user files, essentially your "main" function for
+# the tfmicro crazyflie application.
+PROJ_OBJ += sequence.o
+PROJ_OBJ += sequencelib.o
+PROJ_OBJ += sequenceranger.o
+PROJ_OBJ += sequencerangerdebug.o    # deck name: sequenceRangerDebug
+PROJ_OBJ += tfmicrobenchmark.o      # deck name: tfMicroBench
+PROJ_OBJ += tfmicrodebug.o           # deck name: tfMicroDebug
+PROJ_OBJ += tfmicrodemo.o           # deck name: tfMicroDemo
+PROJ_OBJ += sequencedodge.o          # deck name: sequenceDodge
+
+# Adjust this flag to "force run" the file that you created in the
+# src/deck/drivers/src folder. This overrides the default loading
+# sequence for the Crazyflie so you can run your code there. For some
+# examples look at tfmicrodemo.c or tfmicrobenchmark.c and change the
+# following -DDECK_FORCE flag to your file. 
+CFLAGS += -DDECK_FORCE=tfMicroDemo
+# Put the name of the model you want to put in here!
+CFLAGS += -D TFMICRO_MODEL=fc_320_tflite
+
+
+######################### TF Micro Compilation ##################
+# Need to compile TF Micro with some limited C++-11 support
+# and standard libraries for math. Add all objects needed for compile.
+TF_SRCS := \
+c_api_internal.o \
+debug_log.o \
+micro_error_reporter.o \
+micro_mutable_op_resolver.o \
+simple_tensor_allocator.o \
+debug_log_numbers.o \
+micro_interpreter.o \
+depthwise_conv.o \
+softmax.o \
+all_ops_resolver.o \
+fully_connected.o \
+error_reporter.o \
+flatbuffer_conversions.o \
+op_resolver.o \
+kernel_util.o \
+quantization_util.o \
+model_settings.o \
+audio_provider.o \
+feature_provider.o \
+preprocessor.o \
+no_features_data.o \
+yes_features_data.o \
+tiny_conv_model_data.o \
+recognize_commands.o \
+machinelearning.o \
+tfmicro_models.o
+
+PROJ_OBJ += $(TF_SRCS)
+
+
 ifeq ($(LPS_TDOA_ENABLE), 1)
 CFLAGS += -DLPS_TDOA_ENABLE
 endif
@@ -209,6 +285,7 @@ CFLAGS += -DSENSORS_FORCE=SensorImplementation_$(SENSORS)
 # Add sensor file to the build if needed
 ifeq (,$(findstring DSENSOR_INCLUDED_$(SENSORS_UPPER),$(CFLAGS)))
 CFLAGS += -DSENSOR_INCLUDED_$(SENSORS_UPPER)
+CXXFLAGS += -DSENSOR_INCLUDED_$(SENSORS_UPPER)
 PROJ_OBJ += sensors_$(SENSORS).o
 endif
 endif
@@ -236,7 +313,10 @@ OBJ = $(FREERTOS_OBJ) $(PORT_OBJ) $(ST_OBJ) $(PROJ_OBJ) $(CRT0)
 ############### Compilation configuration ################
 AS = $(CROSS_COMPILE)as
 CC = $(CROSS_COMPILE)gcc
-LD = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+# TFMicro - used to use gcc linker but we need the c++ math library during
+# link time :O
+LD = $(CROSS_COMPILE)g++
 SIZE = $(CROSS_COMPILE)size
 OBJCOPY = $(CROSS_COMPILE)objcopy
 GDB = $(CROSS_COMPILE)gdb
@@ -259,13 +339,22 @@ INCLUDES += -I$(LIB)/FatFS
 INCLUDES += -I$(LIB)/vl53l1
 INCLUDES += -I$(LIB)/vl53l1/core/inc
 
+# Add our tfmicro library!
+INCLUDES += -Itfmicro/
+INCLUDES += -Itfmicro
+INCLUDES += -Itfmicro/third_party/flatbuffers
+INCLUDES += -Itfmicro/third_party/flatbuffers/include
+INCLUDES += -Itfmicro/third_party
+INCLUDES += -Itfmicro/third_party/gemmlowp
+
 ifeq ($(DEBUG), 1)
   CFLAGS += -O0 -g3 -DDEBUG
   # Prevent silent errors when converting between types (requires explicit casting)
   CFLAGS += -Wconversion
 else
 	# Fail on warnings
-  CFLAGS += -Os -g3 -Werror
+  CFLAGS += -Os -g3 
+  CXXFLAGS += -Os -g3 
 endif
 
 ifeq ($(LTO), 1)
@@ -273,21 +362,28 @@ ifeq ($(LTO), 1)
 endif
 
 CFLAGS += -DBOARD_REV_$(REV) -DESTIMATOR_NAME=$(ESTIMATOR)Estimator -DCONTROLLER_NAME=ControllerType$(CONTROLLER) -DPOWER_DISTRIBUTION_TYPE_$(POWER_DISTRIBUTION)
+CXXFLAGS += -DBOARD_REV_$(REV) -DESTIMATOR_NAME=$(ESTIMATOR)Estimator -DCONTROLLER_NAME=ControllerType$(CONTROLLER) -DPOWER_DISTRIBUTION_TYPE_$(POWER_DISTRIBUTION)
 
 CFLAGS += $(PROCESSOR) $(INCLUDES)
+CXXFLAGS += $(PROCESSOR) $(INCLUDES)
 
 
-CFLAGS += -Wall -Wmissing-braces -fno-strict-aliasing $(C_PROFILE) -std=gnu11
+CFLAGS += -Wmissing-braces -fno-strict-aliasing $(C_PROFILE) -std=gnu11
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(BIN)/dep/$(@).d -MQ $(@)
+CXXFLAGS += -MD -MP -MF $(BIN)/dep/$(@).d -MQ $(@)
 #Permits to remove un-used functions and global variables from output file
 CFLAGS += -ffunction-sections -fdata-sections
+CXXFLAGS += -ffunction-sections -fdata-sections
 # Prevent promoting floats to doubles
 CFLAGS += -Wdouble-promotion
 
 
 ASFLAGS = $(PROCESSOR) $(INCLUDES)
 LDFLAGS = --specs=nosys.specs --specs=nano.specs $(PROCESSOR) -Wl,-Map=$(PROG).map,--cref,--gc-sections,--undefined=uxTopUsedPriority 
+
+# Necessary for standard library support
+LDFLAGS += -lstdc++
 
 #Flags required by the ST library
 ifeq ($(CLOAD), 1)

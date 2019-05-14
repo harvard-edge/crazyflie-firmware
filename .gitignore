@@ -22,3 +22,8 @@ tags
 /generated-test/**
 
 current_platform.mk
+
+# Python
+*.pyc
+*__pycache__*
+*.pbtxt

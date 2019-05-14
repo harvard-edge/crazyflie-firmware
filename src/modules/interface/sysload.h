@@ -2,5 +2,6 @@
 #define __SYSLOAD_H__
 
 void sysLoadInit();
+void systemDump();
 
 #endif

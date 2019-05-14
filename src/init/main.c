@@ -39,6 +39,9 @@
 
 #include "led.h"
 
+// microedit for testing
+#include "motors.h"
+
 /* ST includes */
 #include "stm32fxxx.h"
 

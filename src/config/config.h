@@ -48,13 +48,19 @@
 
 #define PROTOCOL_VERSION 4
 
+// TFMICRO EDIT
+
 #ifdef STM32F4XX
   #define QUAD_FORMATION_X
-
+  // use regular port alloc can't deallocate but guarantees that I can get
+  // a continguous block of memory. This line didn't use to be here.
+  #define malloc pvPortMalloc
   #define CONFIG_BLOCK_ADDRESS    (2048 * (64-1))
   #define MCU_ID_ADDRESS          0x1FFF7A10
   #define MCU_FLASH_SIZE_ADDRESS  0x1FFF7A22
-  #define FREERTOS_HEAP_SIZE      40000
+  // original size of heap was 40000
+  // #define FREERTOS_HEAP_SIZE      40000
+  #define FREERTOS_HEAP_SIZE      60000
   #define FREERTOS_MIN_STACK_SIZE 150       // M4-FPU register setup is bigger so stack needs to be bigger
   #define FREERTOS_MCU_CLOCK_HZ   168000000
 
@@ -124,6 +130,11 @@
 #define CMD_HIGH_LEVEL_TASK_NAME "CMDHL"
 #define MULTIRANGER_TASK_NAME   "MR"
 
+
+/* TFMICRO EDIT
+ * we see that there are 39 * 150 = 5850 words in stack size used for system stuff.
+ * Therefore we don't have much more space for our stack.
+ */
 //Task stack sizes
 #define SYSTEM_TASK_STACKSIZE         (2* configMINIMAL_STACK_SIZE)
 #define ADC_TASK_STACKSIZE            configMINIMAL_STACK_SIZE

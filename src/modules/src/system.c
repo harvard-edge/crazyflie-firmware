@@ -81,7 +81,6 @@ void systemLaunch(void)
   xTaskCreate(systemTask, SYSTEM_TASK_NAME,
               SYSTEM_TASK_STACKSIZE, NULL,
               SYSTEM_TASK_PRI, NULL);
-
 }
 
 // This must be the first module to be initialized!

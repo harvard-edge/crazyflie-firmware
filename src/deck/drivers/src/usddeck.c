@@ -346,6 +346,7 @@ static void usdLogTask(void* prm)
   };
 
   /* allocate memory for buffer */
+  DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
   DEBUG_PRINT("malloc buffer ...\n");
   // vTaskDelay(10); // small delay to allow debug message to be send
   struct usdLogStruct* usdLogBufferStart =

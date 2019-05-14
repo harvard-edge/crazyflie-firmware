@@ -1,22 +1,16 @@
-# Crazyflie 2.0 Firmware  [![Build Status](https://api.travis-ci.org/bitcraze/crazyflie-firmware.svg)](https://travis-ci.org/bitcraze/crazyflie-firmware)
+# TF MicroFlie
 
-This project contains the source code for the Crazyflie 2.0 firmware.
+This is a fork of the crazyflie 2.0 firmware, which is available
+[here](https://www.github.com/bitcraze/crazyflie-firmware). We will mainly
+be using custom firmware to run small ML models locally on the STM32F4
+microcontroller on the actual Crazyflie.
 
-### Crazyflie 1.0 support
-
-The 2017.06 release was the last release with Crazyflie 1.0 support. If you want
-to play with the Crazyflie 1.0 and modify the code, please clone this repo and
-branch off from the 2017.06 tag. 
-
-## Dependencies
-
-You'll need to use either the [Crazyflie VM](https://wiki.bitcraze.io/projects:virtualmachine:index),
-[the toolbelt](https://wiki.bitcraze.io/projects:dockerbuilderimage:index) or 
-install some ARM toolchain.
+## Installation
 
 ### Install a toolchain
 
 #### OS X
+
 ```bash
 brew tap PX4/homebrew-px4
 brew install gcc-arm-none-eabi
@@ -45,38 +39,27 @@ sudo apt-get update
 sudo apt-get install libnewlib-arm-none-eabi
 ```
 
-#### Arch Linux
+Try this if the previous two give linking errors:
 
 ```bash
-sudo pacman -S community/arm-none-eabi-gcc community/arm-none-eabi-gdb community/arm-none-eabi-newlib
+sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa
+sudo apt-get update
+sudo apt-get install gcc-arm-embedded
 ```
 
-#### Windows
 
-The GCC ARM Embedded toolchain for Windows is available at [launchpad.net](https://launchpad.net/gcc-arm-embedded/+download). Download the zip archive rather than the executable installer. There are a few different systems for running UNIX-style shells and build systems on Windows; the instructions below are for [Cygwin](https://www.cygwin.com/).
+#### Troubleshooting
 
-Install Cygwin with [setup-x86_64.exe](https://www.cygwin.com/setup-x86_64.exe). Use the standard `C:\cygwin64` installation directory and install at least the `make` and `git` packages.
+If there are any errors, especially with linking the standard library, try
+installing the newest version of the ARM compiler toolchain from their website
+[here](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 
-Download the latest `gcc-arm-none-eabi-*-win32.zip` archive from [launchpad.net](https://launchpad.net/gcc-arm-embedded/+download). Create the directory `C:\cygwin64\opt\gcc-arm-none-eabi` and extract the contents of the zip file to it.
 
-Launch a Cygwin terminal and run the following to append to your ~/.bashrc file:
-```bash
-echo '[[ $PATH == */opt/gcc-arm-none-eabi/bin* ]] || export PATH=/opt/gcc-arm-none-eabi/bin:$PATH' >>~/.bashrc
-source ~/.bashrc
-```
-
-Verify the toolchain installation with `arm-none-eabi-gcc --version`
 
 ### Cloning
 
-This repository uses git submodules. Clone with the --recursive flag
-
-```bash
-git clone --recursive https://github.com/bitcraze/crazyflie-firmware.git
-```
-
-If you already have cloned the repo without the --recursive option, you need to 
-get the submodules manually
+This repository uses git submodules. Clone with the --recursive flag, or make
+sure to update the submodules manually.
 
 ```bash
 cd crazyflie-firmware
@@ -84,114 +67,63 @@ git submodule init
 git submodule update
 ```
 
-
 ## Compiling
 
-### Crazyflie 2.0
+### Crazyflie 2.X
 
-This is the default build so just running "make" is enough or:
+To make the project, you can just type in `make`. Then, we will want to flash
+the Crazyflie. To do this, you will need to following the installation
+instructions for the radio bootloader and install the python libraries, 
+available [here](https://www.github.com/bitcraze/crazyflie-client-python) and
+[here](https://www.github.com/bitcraze/crazyflie-lib-python).
+
+Once all of those steps are done and the python libraries for bootloading are
+installed, you can now compile and flash the image onto the crazyflie. Make
+sure that the crazyflie is in bootloader mode (usually by turning it off and
+then holding the power button for 3 seconds).
+
 ```bash
-make PLATFORM=CF2
+make clean
+make -j7
+make cload
 ```
 
-or with the toolbelt
+## Integrating TFMicro and ML
 
-```bash
-tb make
-```
+For an indepth guide on how to run everything, see the document `WORKFLOW.md`
+which is available [here](WORKFLOW.md). This guide will show you how to run
+everything as well as well as how to view the output of ML models.
 
-### config.mk
-To create custom build options create a file called config.mk in the tools/make/
-folder and fill it with options. E.g. 
-```
-PLATFORM=CF2
-DEBUG=1
-CLOAD=0
-```
-More information can be found on the 
-[Bitcraze wiki](http://wiki.bitcraze.se/projects:crazyflie2:index)
+### Controlling Crazyflie Onboard
 
-## Folder description:
-```
-./              | Root, contains the Makefile
- + init         | Contains the main.c
- + config       | Configuration files
- + drivers      | Hardware driver layer
- |  + src       | Drivers source code
- |  + interface | Drivers header files. Interface to the HAL layer
- + hal          | Hardware abstaction layer
- |  + src       | HAL source code
- |  + interface | HAL header files. Interface with the other parts of the program
- + modules      | Firmware operating code and headers
- |  + src       | Firmware tasks source code and main.c
- |  + interface | Operating headers. Configure the firmware environement
- + utils        | Utils code. Implement utility block like the console.
- |  + src       | Utils source code
- |  + interface | Utils header files. Interface with the other parts of the program
- + platform     | Platform specific files. Not really used yet
- + tools        | Misc. scripts for LD, OpenOCD, make, version control, ...
- |              | *** The two following folders contains the unmodified files ***
- + lib          | Libraries
- |  + FreeRTOS  | Source FreeRTOS folder. Cleaned up from the useless files
- |  + STM32...  | Library folders of the ST STM32 peripheral libs
- |  + CMSIS     | Core abstraction layer
-```
-# Make targets:
-```
-all        : Shortcut for build
-compile    : Compile cflie.hex. WARNING: Do NOT update version.c
-build      : Update version.c and compile cflie.elf/hex
-clean_o    : Clean only the Objects files, keep the executables (ie .elf, .hex)
-clean      : Clean every compiled files
-mrproper   : Clean every compiled files and the classical editors backup files
+We will be integrating TFMicro into this system by creating our own deck
+boot sequence and forcing the crazyflie to run that on startup. If you want
+to run your own code on startup, make a `.c` file in `src/deck/drivers/src/`.
+My example was the file `src/deck/drivers/src/tfmicrobenchmark.c`. Then, to make sure
+that these files are compiled, make sure to add in the Makefile a line
+`PROJ_OBJ += tfmicrobenchmark.o`. 
 
-cload      : If the crazyflie-clients-python is placed on the same directory level and 
-             the Crazyradio/Crazyradio PA is inserted it will try to flash the firmware 
-             using the wireless bootloader.
-flash      : Flash .elf using OpenOCD
-halt       : Halt the target using OpenOCD
-reset      : Reset the target using OpenOCD
-openocd    : Launch OpenOCD
-```
+Then, to make the crazyflie load this deck code in forcibly when it boots up,
+make sure to either add a line `CFLAGS += -DDECK_FORCE=<sequence name>` to
+the Makefile or the file `tools/make/config.mk` before compiling. Note that
+`<sequence name>` is set in the `sequence.c` file - look at all of the deck
+driver code examples in the same directory to see how this variable is set. 
 
-# Unit testing
+### Integrating TF-Micro
 
-## Running all unit tests
-    
-With the environment set up locally
+All of the code for the crazyflie is in C, while we require C++ (and a few
+C++11 extensions) for compiling TF Micro. The easiest way to deal with this
+is to compile TF Micro, and create a wrapper class to compile with C symbols
+and call it from your `sequence.c` file. More information about how to
+convert ML models to the correct format can be found in the folder `tfmicro/`,
+and [here](tfmicro/README.md).
 
-        make unit
-        
-with the docker builder image and the toolbelt
+## Useful Links
 
-        tb make unit
-        
-## Running one unit test
-       
-When working with one specific file it is often convenient to run only one unit test
-       
-       make unit FILES=test/utils/src/test_num.c
+* https://github.com/bitcraze/crazyflie-firmware-experimental/blob/icra-2017/src/modules/src/retrace.c#L157
 
-or with the toolbelt        
+* https://forum.bitcraze.io/viewtopic.php?t=2723
 
-       tb make unit FILES=test/utils/src/test_num.c
-              
-## Running unit tests with specific build settings
-      
-Defines are managed by make and are passed on to the unit test code. Use the 
-normal ways of configuring make when running tests. For instance to run test
-for Crazyflie 1
+* https://forum.bitcraze.io/viewtopic.php?f=6&t=2648&p=13352&hilit=demo#p13352
 
-      make unit LPS_TDOA_ENABLE=1
-
-## Dependencies
-
-Frameworks for unit testing and mocking are pulled in as git submodules.
-
-The testing framework uses ruby and rake to generate and run code. 
-
-To minimize the need for installations and configuration, use the docker builder
-image (bitcraze/builder) that contains all tools needed. All scripts in the 
-tools/build directory are intended to be run in the image. The 
-[toolbelt](https://wiki.bitcraze.io/projects:dockerbuilderimage:index) makes it
-easy to run the tool scripts.
+* [Microsoft Airsim](https://github.com/microsoft/AirSim)

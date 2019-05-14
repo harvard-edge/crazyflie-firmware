@@ -31,7 +31,7 @@ inline double TfLiteRound(const double x) { return ::round(x); }
 #else
 template <class T>
 inline T TfLiteRound(const T x) {
-  return std::round(x);
+  return ::round(x);
 }
 #endif
 
