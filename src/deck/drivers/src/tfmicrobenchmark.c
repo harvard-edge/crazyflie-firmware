@@ -17,7 +17,6 @@ how fast the chip can process these neural networks */
 static void tfMicroBenchTask()
 {
 	systemWaitStart();
-	DEBUG_PRINT("USING THIS CODE \n")
 	DEBUG_PRINT("Original heap space: %d\n", xPortGetFreeHeapSize());
 	consolePrintf("Try allocating actual ML model and tensor intermediaries (fc)\n");
 	const CTfLiteModel* model = CTfLiteModel_create();

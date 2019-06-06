@@ -42,7 +42,7 @@ static void sequenceDodgeTask()
 
   int ticksDetected = 0;
   int maxTicksDetected = 16;
-  float ESCAPE_SPEED = 0.5;
+  float ESCAPE_SPEED = 0.1;
   for (int j = 0; j < 5000; j++) {
     getDistances(&d);
     // printDistances(d);

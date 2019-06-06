@@ -39,5 +39,6 @@ extern void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, 
 extern void flyVerticalInterpolated(float startz, float endz, float interpolate_time);
 
 extern int argmax(int*, int);
+extern int argmax_f(float*, int);
 
 #endif

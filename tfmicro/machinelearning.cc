@@ -86,8 +86,10 @@ extern "C" {
 		}
 
 		TfLiteTensor* output = interpreter.output(0);
-		int NUM_CLASSES = 9;
+
+		int NUM_CLASSES = 3;
 		for (int i = 0; i < NUM_CLASSES; i++) {
+
 			result[i] = static_cast<int>(output->data.uint8[i]);
 		}
 	}

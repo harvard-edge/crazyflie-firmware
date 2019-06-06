@@ -18,6 +18,7 @@ how fast the chip can process these neural networks */
 
 static void check_multiranger_online() {
 	DEBUG_PRINT("Checking if multiranger ToF sensors online...\n");
+
 	distances d;
 	for (int j = 0; j < 10; j++) {
 		getDistances(&d);
@@ -39,8 +40,8 @@ static void tfMicroDemoTask()
 
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
-	int r[9];
-	uint8_t input[6] = {40, 120, 120, 120, 120, 120};
+	int r[3];
+	uint8_t input[5] = {40, 120, 120, 120, 120, 120};
 
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
   float HOVER_HEIGHT = 1.1;
@@ -53,37 +54,38 @@ static void tfMicroDemoTask()
   float ESCAPE_SPEED = 0.7;
   for (int j = 0; j < 1000; j++) {
     getDistances(&d);
+
+        /* Defining the input to the network*/
+        // obs avoidance will
+//		input[0] = (uint8_t) ( d.front / 10);
+//		input[1] = (uint8_t) ( d.right / 10);
+//		input[2] = (uint8_t) ( d.back / 10);
+//		input[3] = (uint8_t) ( d.left / 10);
+//		input[4] = (uint8_t) ( d.up / 10);
+//		input[5] = (uint8_t) ( d.down / 10);
+
+
 		input[0] = (uint8_t) ( d.front / 10);
 		input[1] = (uint8_t) ( d.right / 10);
 		input[2] = (uint8_t) ( d.back / 10);
 		input[3] = (uint8_t) ( d.left / 10);
-		input[4] = (uint8_t) ( d.up / 10);
-		input[5] = (uint8_t) ( d.down / 10);
+		input[4] = (uint8_t) (5);
+
 		CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, input, r);
-		command = argmax(r, 9);
-		DEBUG_PRINT("Command: %d\n", command);
+		DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
+		command = argmax(r, 3);
+		DEBUG_PRINT("Command: %i\n", command);
 		switch (command) {
-				case 0: setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0); 
+				case 0: setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
 					break;
-				case 1: setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0); 
+				case 1: setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 50);
 					break;
-				case 2: setHoverSetpoint(&setpoint, ESCAPE_SPEED, -ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				case 3: setHoverSetpoint(&setpoint, 0, -ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				case 4: setHoverSetpoint(&setpoint, -ESCAPE_SPEED, -ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				case 5: setHoverSetpoint(&setpoint, -ESCAPE_SPEED, 0, HOVER_HEIGHT, 0); 
-					break;
-				case 6: setHoverSetpoint(&setpoint, -ESCAPE_SPEED, ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				case 7: setHoverSetpoint(&setpoint, 0, ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				case 8: setHoverSetpoint(&setpoint, ESCAPE_SPEED, ESCAPE_SPEED, HOVER_HEIGHT, 0); 
-					break;
-				default:
-					setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0); 
-					break;
+				case 2: setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -50);
+				    break;
+
+                default:
+                    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
+                    break;
 		} 
 		commanderSetSetpoint(&setpoint, 3);
     vTaskDelay(M2T(40));

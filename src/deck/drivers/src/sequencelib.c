@@ -22,6 +22,21 @@ int argmax(int* arr, int size) {
 	return 0;
 }
 
+/* argmax for floats*/
+int argmax_f(float* arr, int size) {
+    int curr = 0;
+    for (int i = 0; i < size; i++) {
+        curr = max(curr, arr[i]);
+    }
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == curr) {
+            return i;
+        }
+    }
+    return 0;
+}
+
 void getDistances(distances* d) {
     d->front = rangeGet(rangeFront);
     d->back = rangeGet(rangeBack);
