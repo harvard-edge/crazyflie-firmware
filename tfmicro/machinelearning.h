@@ -1,7 +1,7 @@
 // Choices of model in tfmicro_models.h
 // Examples are: fc_tflite, micro_conv_tflite, etc
 #ifndef TFMICRO_MODEL
-#define TFMICRO_MODEL twolayer_tflite
+#define TFMICRO_MODEL fc_320_tflite
 #endif
 
 // type of model. uint8_t if quantized, usually float if not.

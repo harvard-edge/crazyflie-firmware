@@ -15,6 +15,7 @@ how fast the chip can process these neural networks */
 
 
 #define TENSOR_ALLOC_SIZE 6000
+#define SUBTRACT_VAL 60
 
 static void check_multiranger_online() {
 	DEBUG_PRINT("Checking if multiranger ToF sensors online...\n");
@@ -51,9 +52,9 @@ static void tfMicroDemoTask()
   vTaskDelay(M2T(500));
 	distances d;
   int command = 0;
-  float ESCAPE_SPEED = 0.1;
+  float ESCAPE_SPEED = 0.5;
   for (int j = 0; j < 1000; j++) {
-    getDistances(&d);
+        getDistances(&d);
 
         /* Defining the input to the network*/
         // obs avoidance will
@@ -69,8 +70,18 @@ static void tfMicroDemoTask()
 		input[1] = (uint8_t) ( d.front / 10);
 		input[2] = (uint8_t) ( d.left / 10);
 		input[3] = (uint8_t) ( d.down / 10);
-		input[4] = (uint8_t) (5);
+		input[4] = (uint8_t) (128);
 
+		// subtract from laser readings, this creates a save zone around objects
+//		for(int i=0;i<4;i++)
+//        {
+//		    if(input[i]>SUBTRACT_VAL){
+//		        input[i] = input[i] - SUBTRACT_VAL;
+//		    }
+//		    else{
+//		        input[i] = 0;
+//		    }
+//        }
 		DEBUG_PRINT("LASERS: %i %i %i %i",input[0],input[1],input[2],input[3]);
 
 //        input[0] = (uint8_t)(1);
@@ -79,31 +90,42 @@ static void tfMicroDemoTask()
 //        input[3] = (uint8_t)(1);
 //        input[4] = (uint8_t)(1);
 
-      CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, input, r);
+        CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, input, r);
 		DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
 		command = argmax(r, 3);
 		DEBUG_PRINT("Command: %i\n", command);
-		switch (command) {
-				case 0:
-				    setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
-					break;
-				case 1:
-				    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 60);
-                    vTaskDelay(M2T(100));
-                    break;
-				case 2:
-				    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -60);
-				    vTaskDelay(M2T(100));
-                    break;
 
-                default:
-                    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
-                    break;
-		} 
-		commanderSetSetpoint(&setpoint, 3);
-    vTaskDelay(M2T(40));
+        switch (command) {
+          case 0:
+              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+            commanderSetSetpoint(&setpoint, 3);
+            vTaskDelay(M2T(40));
+              break;
+          case 1:
+              for (int i=0; i<12; i++) {
+                  setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 72);
+                  commanderSetSetpoint(&setpoint, 3);
+                  vTaskDelay(M2T(10));
+              }
+//              vTaskDelay(M2T(100));
+              break;
+          case 2:
+              for (int i=0; i<12; i++) {
+                  setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -72);
+                  commanderSetSetpoint(&setpoint, 3);
+                  vTaskDelay(M2T(10));
+              }
+//              vTaskDelay(M2T(100));
+              break;
+          default:
+              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
+                commanderSetSetpoint(&setpoint, 3);
+                vTaskDelay(M2T(40));
+              break;
+      }
+
   }
-  
+
 	// Slowly lower to a safe height before quitting, or else CRASH!
   flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
 	for (;;) { vTaskDelay(M2T(1000)); }
