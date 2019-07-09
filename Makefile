@@ -261,7 +261,8 @@ yes_features_data.o \
 tiny_conv_model_data.o \
 recognize_commands.o \
 machinelearning.o \
-tfmicro_models.o
+tfmicro_models.o \
+sensor.o
 
 PROJ_OBJ += $(TF_SRCS)
 

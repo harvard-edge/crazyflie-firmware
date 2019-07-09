@@ -12,7 +12,7 @@ how fast the chip can process these neural networks */
 #include "machinelearning.h"
 #include "sysload.h"
 #include "sequencelib.h"
-
+#include "sensor.h"
 
 #define TENSOR_ALLOC_SIZE 6000
 #define SUBTRACT_VAL 60
@@ -43,17 +43,18 @@ static void tfMicroDemoTask()
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
 	int r[3];
 	uint8_t input[5] = {40, 120, 120, 120, 120};
-
+    uint16_t sensor_read = 0;
+    uint8_t sensor_mode = 0;
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
-  float HOVER_HEIGHT = 1.1;
-  
-  // Start in the air before doing ML 
-  flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
-  vTaskDelay(M2T(500));
-	distances d;
-  int command = 0;
-  float ESCAPE_SPEED = 0.5;
-  for (int j = 0; j < 1000; j++) {
+    float HOVER_HEIGHT = 1.1;
+    TSL2591_init();
+    // Start in the air before doing ML
+    flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
+    vTaskDelay(M2T(500));
+    distances d;
+    int command = 0;
+    float ESCAPE_SPEED = 0.5;
+    for (int j = 0; j < 1000; j++) {
         getDistances(&d);
 
         /* Defining the input to the network*/
@@ -65,13 +66,13 @@ static void tfMicroDemoTask()
 //		input[4] = (uint8_t) ( d.up / 10);
 //		input[5] = (uint8_t) ( d.down / 10);
 
-
+        sensor_read = read_TSL2591(sensor_mode);
 		input[0] = (uint8_t) ( d.right / 10);
 		input[1] = (uint8_t) ( d.front / 10);
 		input[2] = (uint8_t) ( d.left / 10);
 		input[3] = (uint8_t) ( d.down / 10);
 		input[4] = (uint8_t) (128);
-
+        DEBUG_PRINT("Light : %i \n",sensor_read);
 		// subtract from laser readings, this creates a save zone around objects
 //		for(int i=0;i<4;i++)
 //        {
