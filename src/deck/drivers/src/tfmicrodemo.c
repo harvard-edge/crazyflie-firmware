@@ -16,6 +16,8 @@ how fast the chip can process these neural networks */
 
 #define TENSOR_ALLOC_SIZE 6000
 #define SUBTRACT_VAL 60
+#define STATE_LEN 5
+#define NUM_STATES 4
 
 static void check_multiranger_online() {
 	DEBUG_PRINT("Checking if multiranger ToF sensors online...\n");
@@ -34,6 +36,20 @@ static void check_multiranger_online() {
 	}
 }
 
+static void update_state(uint8_t *meas_array, distances d){
+    //Step 1: move entire array by 1 state
+    for(int i = (STATE_LEN*NUM_STATES-1);i>=STATE_LEN;i--)
+    {
+        *(meas_array+i) = *(meas_array+i-STATE_LEN);
+    }
+    //Step2: update the first state
+    *(meas_array) = (uint8_t) ( d.right / 10);
+    *(meas_array+1) = (uint8_t) ( d.front / 10);
+    *(meas_array+2) = (uint8_t) ( d.left / 10);
+    *(meas_array+3) = (uint8_t) ( d.down / 10);
+    *(meas_array+4) = (uint8_t) (128);
+}
+
 static void tfMicroDemoTask()
 {
 	static setpoint_t setpoint;
@@ -42,12 +58,13 @@ static void tfMicroDemoTask()
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
 	int r[3];
+	uint8_t full_meas[20] = {40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120};
 	uint8_t input[5] = {40, 120, 120, 120, 120};
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
     float HOVER_HEIGHT = 1.1;
-    TSL2591_init();
+    //TSL2591_init();
     // Start in the air before doing ML
     flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
@@ -66,12 +83,14 @@ static void tfMicroDemoTask()
 //		input[4] = (uint8_t) ( d.up / 10);
 //		input[5] = (uint8_t) ( d.down / 10);
 
-        sensor_read = read_TSL2591(sensor_mode);
+        //sensor_read = read_TSL2591(sensor_mode);
 		input[0] = (uint8_t) ( d.right / 10);
 		input[1] = (uint8_t) ( d.front / 10);
 		input[2] = (uint8_t) ( d.left / 10);
 		input[3] = (uint8_t) ( d.down / 10);
 		input[4] = (uint8_t) (128);
+		update_state(&full_meas, d);
+		DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i ",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7]);
         DEBUG_PRINT("Light : %i \n",sensor_read);
 		// subtract from laser readings, this creates a save zone around objects
 //		for(int i=0;i<4;i++)
