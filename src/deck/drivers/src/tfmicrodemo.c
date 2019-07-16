@@ -69,7 +69,6 @@ static void tfMicroDemoTask()
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
     distances d;
-    sensor_read = read_TSL2591(sensor_mode);
 
     int command = 0;
     float ESCAPE_SPEED = 0.5;
@@ -86,6 +85,7 @@ static void tfMicroDemoTask()
 //		input[5] = (uint8_t) ( d.down / 10);
 
         sensor_read = read_TSL2591(sensor_mode);
+        DEBUG_PRINT("LIGHT: %i \n",sensor_read);
         vTaskDelay(M2T(500));
 //		input[0] = (uint8_t) ( d.right / 10);
 //		input[1] = (uint8_t) ( d.front / 10);
