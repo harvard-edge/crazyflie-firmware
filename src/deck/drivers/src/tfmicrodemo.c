@@ -85,8 +85,8 @@ static void tfMicroDemoTask()
 //		input[5] = (uint8_t) ( d.down / 10);
 
         sensor_read = read_TSL2591(sensor_mode);
-        DEBUG_PRINT("LIGHT: %i \n",sensor_read);
-        vTaskDelay(M2T(500));
+        DEBUG_PRINT("%i \n",sensor_read);
+        //vTaskDelay(M2T(500));
 //		input[0] = (uint8_t) ( d.right / 10);
 //		input[1] = (uint8_t) ( d.front / 10);
 //		input[2] = (uint8_t) ( d.left / 10);
