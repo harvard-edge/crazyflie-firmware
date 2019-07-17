@@ -36,6 +36,11 @@ static void check_multiranger_online() {
 	}
 }
 
+
+uint8_t get_distance(uint16_t sensor_read){
+    float frac = 1 - sensor_read/65535. ;
+    return (uint8_t)(frac*255);
+}
 static void update_state(uint8_t *meas_array, distances d){
     //Step 1: move entire array by 1 state
     for(int i = (STATE_LEN*NUM_STATES-1);i>=STATE_LEN;i--)
@@ -69,12 +74,12 @@ static void tfMicroDemoTask()
     flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
     distances d;
+    uint8_t dist =0;
 
     int command = 0;
     float ESCAPE_SPEED = 0.5;
     for (int j = 0; j < 1000; j++) {
         getDistances(&d);
-
         /* Defining the input to the network*/
         // obs avoidance will
 //		input[0] = (uint8_t) ( d.front / 10);
@@ -85,16 +90,18 @@ static void tfMicroDemoTask()
 //		input[5] = (uint8_t) ( d.down / 10);
 
         sensor_read = read_TSL2591(sensor_mode);
+        dist = get_distance(sensor_read);
         //DEBUG_PRINT("%i \n",sensor_read);
         //vTaskDelay(M2T(500));
 		input[0] = (uint8_t) ( d.right / 10);
 		input[1] = (uint8_t) ( d.front / 10);
 		input[2] = (uint8_t) ( d.left / 10);
 		input[3] = (uint8_t) ( d.down / 10);
-		input[4] = (uint8_t) (128);
+		input[4] = (uint8_t) dist;
 //		update_state(&full_meas, d);
 		//DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i ",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7]);
-        DEBUG_PRINT("%i \n",sensor_read);
+        //DEBUG_PRINT("%i \n",sensor_read);
+        DEBUG_PRINT("%i \n",dist);
 		// subtract from laser readings, this creates a save zone around objects
 //		for(int i=0;i<4;i++)
 //        {
