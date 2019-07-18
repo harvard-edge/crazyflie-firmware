@@ -91,13 +91,13 @@ static void tfMicroDemoTask()
     vTaskDelay(M2T(500));
     distances d;
     getDistances(&d);
-    //TSL2591_init();
+    TSL2591_init();
 
     uint8_t dist =0;
     float yaw=0;
     int command = 0;
-    float ESCAPE_SPEED = 0.5;
-    for (int j = 0; j < 2000; j++) {
+    float ESCAPE_SPEED = 0.3;
+    for (int j = 0; j < 500; j++) {
         getDistances(&d);
 
         /* Defining the input to the network*/
@@ -109,7 +109,7 @@ static void tfMicroDemoTask()
 //		input[4] = (uint8_t) ( d.up / 10);
 //		input[5] = (uint8_t) ( d.down / 10);
         //make sure we don't call every loop, that'd make the laser ranger fail
-        //sensor_read = read_TSL2591(sensor_mode);
+        sensor_read = read_TSL2591(sensor_mode);
         dist = get_distance(sensor_read);
         DEBUG_PRINT("%i \n",sensor_read);
         vTaskDelay(M2T(100));
@@ -155,7 +155,7 @@ static void tfMicroDemoTask()
               yaw_incr(&yaw);
               setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, yaw);
               commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(100));
+              vTaskDelay(M2T(10));
 
 //              vTaskDelay(M2T(100));
               break;
@@ -163,7 +163,7 @@ static void tfMicroDemoTask()
                 yaw_decr(&yaw);
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, yaw);
                 commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(100));
+                vTaskDelay(M2T(10));
 
 //              vTaskDelay(M2T(100));
               break;
