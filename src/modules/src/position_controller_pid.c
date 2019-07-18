@@ -80,7 +80,8 @@ static const float thrustScale = 1000.0f;
 static struct this_s this = {
   .pidVX = {
     .init = {
-      .kp = 25.0f,
+     // .kp = 25.0f,
+       .kp=15.0f,
       .ki = 1.0f,
       .kd = 0.0f,
     },
@@ -89,7 +90,8 @@ static struct this_s this = {
 
   .pidVY = {
     .init = {
-      .kp = 25.0f,
+    //  .kp = 25.0f,
+      .kp = 15.0f,
       .ki = 1.0f,
       .kd = 0.0f,
     },
@@ -98,7 +100,8 @@ static struct this_s this = {
 
   .pidVZ = {
     .init = {
-      .kp = 25,
+      //.kp = 25,
+      .kp=10,
       .ki = 15,
       .kd = 0,
     },
@@ -107,7 +110,7 @@ static struct this_s this = {
 
   .pidX = {
     .init = {
-      .kp = 2.0f,
+      .kp = 6.0f, //was 2
       .ki = 0,
       .kd = 0,
     },
@@ -116,7 +119,7 @@ static struct this_s this = {
 
   .pidY = {
     .init = {
-      .kp = 2.0f,
+      .kp = 6.0f, //was 2
       .ki = 0,
       .kd = 0,
     },
@@ -126,6 +129,7 @@ static struct this_s this = {
   .pidZ = {
     .init = {
       .kp = 2.0f,
+//      .kp = 1.0f,
       .ki = 0.5,
       .kd = 0,
     },

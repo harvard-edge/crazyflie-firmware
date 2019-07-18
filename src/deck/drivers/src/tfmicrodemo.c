@@ -18,7 +18,7 @@ how fast the chip can process these neural networks */
 #define SUBTRACT_VAL 60
 #define STATE_LEN 5
 #define NUM_STATES 4
-#define YAW_INCR 45
+#define YAW_INCR 10
 
 void yaw_incr(float *yaw){
     float yaw_out = *yaw + YAW_INCR;
@@ -96,7 +96,7 @@ static void tfMicroDemoTask()
     uint8_t dist =0;
     float yaw=0;
     int command = 0;
-    float ESCAPE_SPEED = 0.8;
+    float ESCAPE_SPEED = 0.5;
     for (int j = 0; j < 2000; j++) {
         getDistances(&d);
 
@@ -147,7 +147,7 @@ static void tfMicroDemoTask()
 
         switch (command) {
           case 0:
-              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, yaw);
               commanderSetSetpoint(&setpoint, 3);
               vTaskDelay(M2T(40));
               break;
@@ -155,7 +155,7 @@ static void tfMicroDemoTask()
               yaw_incr(&yaw);
               setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, yaw);
               commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(500));
+              vTaskDelay(M2T(100));
 
 //              vTaskDelay(M2T(100));
               break;
@@ -163,12 +163,12 @@ static void tfMicroDemoTask()
                 yaw_decr(&yaw);
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, yaw);
                 commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(500));
+                vTaskDelay(M2T(100));
 
 //              vTaskDelay(M2T(100));
               break;
           default:
-              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
+                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, yaw);
                 commanderSetSetpoint(&setpoint, 3);
                 vTaskDelay(M2T(40));
               break;
