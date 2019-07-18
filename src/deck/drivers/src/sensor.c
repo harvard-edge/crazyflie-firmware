@@ -84,7 +84,7 @@ void TSL2591_init(void){
         else{
             DEBUG_PRINT("Looking for sensor... \n");
         }
-        vTaskDelay(M2T(200));
+        //vTaskDelay(M2T(200));
 
     }
 

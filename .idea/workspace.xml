@@ -10,7 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,15 +27,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/fully_connected.cc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1725">
-              <caret line="115" column="8" selection-start-line="115" selection-start-column="8" selection-end-line="115" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tfmicro/tfmicro_models.cc">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3390">
@@ -42,20 +35,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="123" column="10" selection-start-line="123" selection-start-column="10" selection-end-line="123" selection-end-column="10" />
+            <state relative-caret-position="-1529">
+              <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sensor.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="96" column="71" selection-start-line="96" selection-start-column="71" selection-end-line="96" selection-end-column="71" />
+            <state relative-caret-position="1245">
+              <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -63,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sensor.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1395">
-              <caret line="93" column="22" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="22" />
+            <state relative-caret-position="1290">
+              <caret line="86" column="63" selection-start-line="86" selection-start-column="52" selection-end-line="86" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -124,7 +126,12 @@
       <find>status</find>
       <find>TSL2591_PERSIST_ANY</find>
       <find>debug_</find>
+      <find>sequencelib</find>
+      <find>sequencelib.c</find>
       <find>debug_print</find>
+      <find>yaw</find>
+      <find>sensor_read</find>
+      <find>esc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,8 +144,9 @@
         <option value="$PROJECT_DIR$/tfmicro/machinelearning.h" />
         <option value="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" />
         <option value="$PROJECT_DIR$/Makefile" />
-        <option value="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" />
         <option value="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" />
+        <option value="$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c" />
+        <option value="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" />
       </list>
     </option>
   </component>
@@ -153,18 +161,28 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
+    <option name="x" value="993" />
     <option name="y" value="25" />
-    <option name="width" value="2493" />
-    <option name="height" value="1415" />
+    <option name="width" value="927" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="czf_source_seeking_firmware" type="b2602c69:ProjectViewProjectNode" />
+              <item name="czf_source_seeking_firmware" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -210,17 +228,18 @@
       <workItem from="1563295154363" duration="2413000" />
       <workItem from="1563372998322" duration="1980000" />
       <workItem from="1563382421831" duration="1656000" />
+      <workItem from="1563464144977" duration="5655000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40567000" />
+    <option name="totallyTimeSpent" value="53626000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="2493" height="1415" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21659175" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.055340342" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -279,10 +298,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sensor.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sensor.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1395">
-          <caret line="93" column="22" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="22" />
+        <state relative-caret-position="1290">
+          <caret line="86" column="63" selection-start-line="86" selection-start-column="52" selection-end-line="86" selection-end-column="63" />
         </state>
       </provider>
     </entry>
@@ -317,17 +343,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c">
+    <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="123" column="10" selection-start-line="123" selection-start-column="10" selection-end-line="123" selection-end-column="10" />
+        <state relative-caret-position="570">
+          <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/sensor.c">
+    <entry file="file://$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="96" column="71" selection-start-line="96" selection-start-column="71" selection-end-line="96" selection-end-column="71" />
+        <state relative-caret-position="-1529">
+          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
         </state>
       </provider>
     </entry>
