@@ -78,7 +78,7 @@ extern "C" {
 		tflite::MicroInterpreter interpreter(model, resolver, &tensor_allocator, error_reporter);
 		TfLiteTensor* model_input = interpreter.input(0);
 
-		memcpy(model_input->data.uint8, input, 5 * sizeof(uint8_t));
+		memcpy(model_input->data.uint8, input, 20 * sizeof(uint8_t));
 
 		TfLiteStatus invoke_status = interpreter.Invoke();
 		if (invoke_status != kTfLiteOk) {

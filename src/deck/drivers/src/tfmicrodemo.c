@@ -114,10 +114,10 @@ static void tfMicroDemoTask()
         DEBUG_PRINT("%i \n",sensor_read);
         vTaskDelay(M2T(100));
         //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
-		input[0] = (uint8_t) ( d.right / 10);
-		input[1] = (uint8_t) ( d.front / 10);
-		input[2] = (uint8_t) ( d.left / 10);
-		input[3] = (uint8_t) ( d.back / 10);
+		input[0] = (uint8_t) ( d.right* 0.06375);
+		input[1] = (uint8_t) ( d.front * 0.06375);
+		input[2] = (uint8_t) ( d.left * 0.06375);
+		input[3] = (uint8_t) ( d.back * 0.06375);
 		input[4] = (uint8_t) dist;
 		update_state(&full_meas, d,dist);
 		DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i %i %i ",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7],full_meas[8],full_meas[9]);
@@ -141,7 +141,7 @@ static void tfMicroDemoTask()
 //        input[3] = (uint8_t)(1);
 //        input[4] = (uint8_t)(1);
 
-        CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, input, r);
+        CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas, r);
 		DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
 		command = argmax(r, 3);
 		DEBUG_PRINT("Command: %i\n", command);
