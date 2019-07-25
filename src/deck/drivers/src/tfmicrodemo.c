@@ -58,18 +58,18 @@ uint8_t get_distance(uint16_t sensor_read){
     float frac = 1 - sensor_read/65535. ;
     return (uint8_t)(frac*255);
 }
-static void update_state(uint8_t *meas_array, distances d){
+static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
     //Step 1: move entire array by 1 state
     for(int i = (STATE_LEN*NUM_STATES-1);i>=STATE_LEN;i--)
     {
         *(meas_array+i) = *(meas_array+i-STATE_LEN);
     }
     //Step2: update the first state
-    *(meas_array) = (uint8_t) ( d.right / 10);
-    *(meas_array+1) = (uint8_t) ( d.front / 10);
-    *(meas_array+2) = (uint8_t) ( d.left / 10);
-    *(meas_array+3) = (uint8_t) ( d.down / 10);
-    *(meas_array+4) = (uint8_t) (128);
+    *(meas_array) = (uint8_t) ( d.right * 0.06375);
+    *(meas_array+1) = (uint8_t) ( d.front * 0.06375);
+    *(meas_array+2) = (uint8_t) ( d.left * 0.06375);
+    *(meas_array+3) = (uint8_t) ( d.back * 0.06375);
+    *(meas_array+4) = (uint8_t) (dist);
 }
 
 static void tfMicroDemoTask()
@@ -113,13 +113,14 @@ static void tfMicroDemoTask()
         dist = get_distance(sensor_read);
         DEBUG_PRINT("%i \n",sensor_read);
         vTaskDelay(M2T(100));
+        //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
 		input[0] = (uint8_t) ( d.right / 10);
 		input[1] = (uint8_t) ( d.front / 10);
 		input[2] = (uint8_t) ( d.left / 10);
 		input[3] = (uint8_t) ( d.back / 10);
 		input[4] = (uint8_t) dist;
-//		update_state(&full_meas, d);
-		//DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i ",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7]);
+		update_state(&full_meas, d,dist);
+		DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i %i %i ",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7],full_meas[8],full_meas[9]);
         DEBUG_PRINT("sensor %i \n",sensor_read);
         DEBUG_PRINT("dist %i \n",dist);
 		// subtract from laser readings, this creates a save zone around objects
