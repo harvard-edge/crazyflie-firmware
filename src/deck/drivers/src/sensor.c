@@ -94,7 +94,7 @@ void TSL2591_init(void){
     // writing gain and integration to device
     enable();
     if(i2cdevWriteByte(I2Cx, TSL2591_ADDR, TSL2591_COMMAND_BIT | TSL2591_REGISTER_CONTROL,
-                       TSL2591_INTEGRATIONTIME_400MS | TSL2591_GAIN_MED)){
+                       TSL2591_INTEGRATIONTIME_600MS | TSL2591_GAIN_MED)){
         disable();
         DEBUG_PRINT("Gain and integration time set. \n");
     }
@@ -135,6 +135,9 @@ uint16_t read_TSL2591(uint8_t mode)
     }
     else {
         DEBUG_PRINT("Device lost.. \n");
+        // no reading, so assign zero
+        y = 0;
+        x = 0;
     }
     //mode 0: return full
     if(mode ==0){

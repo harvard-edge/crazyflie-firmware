@@ -12,7 +12,10 @@
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sequence.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sequence.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/interface/pid.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/interface/pid.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/src/position_controller_pid.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/src/position_controller_pid.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" beforeDir="false" afterPath="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -86,6 +89,14 @@
       <workItem from="1564088424650" duration="6400000" />
       <workItem from="1564177044175" duration="2768000" />
       <workItem from="1564432911473" duration="12360000" />
+      <workItem from="1564526927197" duration="1738000" />
+      <workItem from="1564589993857" duration="8468000" />
+      <workItem from="1564683745925" duration="1332000" />
+      <workItem from="1564756399559" duration="4859000" />
+      <workItem from="1565122806179" duration="3681000" />
+      <workItem from="1565215064823" duration="697000" />
+      <workItem from="1565303549910" duration="6608000" />
+      <workItem from="1565312319859" duration="1289000" />
     </task>
     <servers />
   </component>

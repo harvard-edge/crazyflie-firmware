@@ -69,22 +69,22 @@
 
 typedef struct
 {
-  float desired;      //< set point
-  float error;        //< error
-  float prevError;    //< previous error
-  float integ;        //< integral
-  float deriv;        //< derivative
-  float kp;           //< proportional gain
-  float ki;           //< integral gain
-  float kd;           //< derivative gain
-  float outP;         //< proportional output (debugging)
-  float outI;         //< integral output (debugging)
-  float outD;         //< derivative output (debugging)
-  float iLimit;       //< integral limit, absolute value. '0' means no limit.
-  float outputLimit;  //< total PID output limit, absolute value. '0' means no limit.
-  float dt;           //< delta-time dt
-  lpf2pData dFilter;  //< filter for D term
-  bool enableDFilter; //< filter for D term enable flag
+    float desired;      //< set point
+    float error;        //< error
+    float prevError;    //< previous error
+    float integ;        //< integral
+    float deriv;        //< derivative
+    float kp;           //< proportional gain
+    float ki;           //< integral gain
+    float kd;           //< derivative gain
+    float outP;         //< proportional output (debugging)
+    float outI;         //< integral output (debugging)
+    float outD;         //< derivative output (debugging)
+    float iLimit;       //< integral limit, absolute value. '0' means no limit.
+    float outputLimit;  //< total PID output limit, absolute value. '0' means no limit.
+    float dt;           //< delta-time dt
+    lpf2pData dFilter;  //< filter for D term
+    bool enableDFilter; //< filter for D term enable flag
 } PidObject;
 
 /**
@@ -100,10 +100,10 @@ typedef struct
  * @param[in] cutoffFreq   Frequency to set the low pass filter cutoff at
  * @param[in] enableDFilter Enable setting for the D lowpass filter
  */
- void pidInit(PidObject* pid, const float desired, const float kp,
-              const float ki, const float kd, const float dt,
-              const float samplingRate, const float cutoffFreq,
-              bool enableDFilter);
+void pidInit(PidObject* pid, const float desired, const float kp,
+             const float ki, const float kd, const float dt,
+             const float samplingRate, const float cutoffFreq,
+             bool enableDFilter);
 
 /**
  * Set the integral limit for this PID in deg.
