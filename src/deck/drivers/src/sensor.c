@@ -94,7 +94,7 @@ void TSL2591_init(void){
     // writing gain and integration to device
     enable();
     if(i2cdevWriteByte(I2Cx, TSL2591_ADDR, TSL2591_COMMAND_BIT | TSL2591_REGISTER_CONTROL,
-                       TSL2591_INTEGRATIONTIME_600MS | TSL2591_GAIN_MED)){
+                       TSL2591_INTEGRATIONTIME_200MS | TSL2591_GAIN_LOW)){
         disable();
         DEBUG_PRINT("Gain and integration time set. \n");
     }
@@ -126,7 +126,7 @@ uint16_t read_TSL2591(uint8_t mode)
 //            vTaskDelay(M2T(120));
 //        }
 
-
+        vTaskDelay(M2T(100));
         i2cdevRead(I2Cx,TSL2591_ADDR,TSL2591_REGISTER_CHAN0_LOW,2,&y); //chan0 - Full + IR
         i2cdevRead(I2Cx,TSL2591_ADDR,TSL2591_REGISTER_CHAN1_LOW,2,&x); //chan1 - IR only
         //disable();
