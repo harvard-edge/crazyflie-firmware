@@ -11,10 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sequencelib.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" beforeDir="false" afterPath="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +92,7 @@
       <workItem from="1565215064823" duration="697000" />
       <workItem from="1565303549910" duration="6608000" />
       <workItem from="1565312319859" duration="4464000" />
-      <workItem from="1565632772651" duration="8421000" />
+      <workItem from="1565632772651" duration="10844000" />
     </task>
     <servers />
   </component>
