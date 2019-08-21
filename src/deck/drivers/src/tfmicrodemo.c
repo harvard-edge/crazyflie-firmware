@@ -27,6 +27,7 @@ how fast the chip can process these neural networks */
 #define GOAL_THRES 245
 #define GOAL_THRES_COUNT 3
 #define DIST_MIN 90
+#define RAND_ACTION_RATE 30
 
 void yaw_incr(int *yaw){
     int yaw_out = *yaw + YAW_INCR;
@@ -107,6 +108,8 @@ static void tfMicroDemoTask()
     distances d;
     getDistances(&d);
     TSL2591_init();
+    uint8_t rand_arr[10] = {2, 2, 1, 1, 2, 1, 1, 1, 2, 1};
+
 
     uint8_t dist =0;
     int yaw = 0;
@@ -114,6 +117,7 @@ static void tfMicroDemoTask()
     float ESCAPE_SPEED = 0.3;
     uint8_t goal_count = 0;
     uint8_t found_goal = FALSE;
+    uint8_t rand_count = 0;
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
         //DEBUG_PRINT("yaw: %d \n",yaw);
@@ -173,8 +177,27 @@ static void tfMicroDemoTask()
 //        input[4] = (uint8_t)(1);
 
         CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas, r);
+
 		//DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
 		command = argmax(r, 3);
+
+//        if(j%RAND_ACTION_RATE==0)
+//        {
+//            if(command != 0){
+//                if(command ==1)
+//                {
+//                    command = 2;
+//                }
+//                else{
+//                    command = 1;
+//                }
+//            }
+//            else{
+//                command = rand_arr[rand_count%10];
+//                rand_count++;
+//            }
+//
+//        }
 		//DEBUG_PRINT("Command: %i\n", command);
         switch (command) {
           case 0:
@@ -188,7 +211,7 @@ static void tfMicroDemoTask()
 //              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
                 commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(200));
+              vTaskDelay(M2T(150));
 
 //              vTaskDelay(M2T(100));
               break;
@@ -197,7 +220,7 @@ static void tfMicroDemoTask()
 //                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
                 commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(200));
+                vTaskDelay(M2T(150));
 
 //              vTaskDelay(M2T(100));
               break;
