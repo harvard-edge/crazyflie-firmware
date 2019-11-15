@@ -115,12 +115,12 @@ static void tfMicroDemoTask()
 
     DEBUG_PRINT("Now trying to call uTensor\n");
     uint64_t start_time, end_time;
-    int num_runs = 10;
+    int num_runs = 20;
 
     start_time = usecTimestamp();
-    float test_measurements[5];
+    float test_measurements[6];
     for (int i = 0 ; i < num_runs; i++) {
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 6; j++) {
             test_measurements[j] = i * 0.3;
         }
         int res = inference(test_measurements, 5);
