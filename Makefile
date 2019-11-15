@@ -126,6 +126,16 @@ VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
 VPATH += tfmicro/tensorflow/lite/kernels/internal
 VPATH += tfmicro/tensorflow/lite/kernels
 
+######################### uTensor Compilation ##################
+VPATH += uTensor
+VPATH += uTensor/
+VPATH += uTensor/uTensor
+VPATH += uTensor/uTensor/core
+VPATH += uTensor/uTensor/loaders
+VPATH += uTensor/uTensor/ops
+VPATH += uTensor/uTensor/ops/cmsis_ops
+VPATH += uTensor/uTensor/util
+
 
 ############### Source files configuration ################
 
@@ -266,6 +276,18 @@ sensor.o
 
 PROJ_OBJ += $(TF_SRCS)
 
+######################### uTensor Compilation ##################
+# Need to compile uTensor with some limited C++-11 support
+# and standard libraries for math. Add all objects needed for compile.
+UTENSOR_SRCS := \
+context.o \
+tensor.o \
+uTensorBase.o \
+vm.o \
+advanced_ml.o
+
+PROJ_OBJ += $(UTENSOR_SRCS)
+
 
 ifeq ($(LPS_TDOA_ENABLE), 1)
 CFLAGS += -DLPS_TDOA_ENABLE
@@ -341,12 +363,19 @@ INCLUDES += -I$(LIB)/vl53l1
 INCLUDES += -I$(LIB)/vl53l1/core/inc
 
 # Add our tfmicro library!
+################ TF MICRO INCLUDES #########################
 INCLUDES += -Itfmicro/
 INCLUDES += -Itfmicro
 INCLUDES += -Itfmicro/third_party/flatbuffers
 INCLUDES += -Itfmicro/third_party/flatbuffers/include
 INCLUDES += -Itfmicro/third_party
 INCLUDES += -Itfmicro/third_party/gemmlowp
+
+
+################ uTensor INCLUDES #########################
+INCLUDES += -IuTensor
+INCLUDES += -IuTensor/
+
 
 ifeq ($(DEBUG), 1)
   CFLAGS += -O0 -g3 -DDEBUG

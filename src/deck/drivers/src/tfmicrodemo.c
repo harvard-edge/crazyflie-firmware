@@ -93,6 +93,11 @@ static void tfMicroDemoTask()
 	static setpoint_t setpoint;
 	systemWaitStart();
 
+
+    DEBUG_PRINT("HELLO WORLD\n");
+    DEBUG_PRINT("THIS IS WFU\n");
+
+    /*
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
 	int r[3];
@@ -122,7 +127,7 @@ static void tfMicroDemoTask()
         getDistances(&d);
         //DEBUG_PRINT("yaw: %d \n",yaw);
 
-        /* Defining the input to the network*/
+        // Defining the input to the networ
         // obs avoidance will
 //		input[0] = (uint8_t) ( d.front / 10);
 //		input[1] = (uint8_t) ( d.right / 10);
@@ -235,7 +240,9 @@ static void tfMicroDemoTask()
 }
 
 	// Slowly lower to a safe height before quitting, or else CRASH!
-  flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
+
+    */
+  // flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
 	for (;;) { vTaskDelay(M2T(1000)); }
 }
 
