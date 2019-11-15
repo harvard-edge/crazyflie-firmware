@@ -11,7 +11,8 @@
 extern "C" {
 #endif
 
-void utensor_test_load(int x);
+int inference(float*, unsigned int);
+int utensor_test_load(int x);
 int utensor_test(int x);
 
 #ifdef __cplusplus

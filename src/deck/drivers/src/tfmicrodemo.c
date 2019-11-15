@@ -114,7 +114,21 @@ static void tfMicroDemoTask()
     DEBUG_PRINT("Doubled with Library: %d\n", y);
 
     DEBUG_PRINT("Now trying to call uTensor\n");
-    utensor_test_load(5);
+    uint64_t start_time, end_time;
+    int num_runs = 10;
+
+    start_time = usecTimestamp();
+    float test_measurements[5];
+    for (int i = 0 ; i < num_runs; i++) {
+        for (int j = 0; j < 5; j++) {
+            test_measurements[j] = i * 0.3;
+        }
+        int res = inference(test_measurements, 5);
+    }
+    end_time = usecTimestamp();
+    DEBUG_PRINT("Time taken for %d inferences: %lld us\n", num_runs, (end_time - start_time));
+    DEBUG_PRINT("Time taken per inference: %lld us\n", (end_time - start_time) / num_runs);
+
     DEBUG_PRINT("FINISHED\n");
 
 

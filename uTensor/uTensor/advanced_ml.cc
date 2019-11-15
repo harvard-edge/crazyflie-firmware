@@ -14,16 +14,39 @@ in C++, and then link it to the main loop later.
 #include "uTensor/core/tensor.hpp"
 
 
-#define UTENSOR_INPUT_DIM 784
+#define UTENSOR_TEST_INPUT_DIM 5
+#define UTENSOR_OUTPUT_NODE "deepq/model/action_value/fully_connected_2/BiasAdd:0"
+#define BATCH_SIZE 1
 
 extern "C" {
 
-	void utensor_test_load(int x) {
-		float input_data[UTENSOR_INPUT_DIM];
+	/* Does one inference, returns the results.*/
+	int inference(float *arr, unsigned int size) {
+		float input_data[UTENSOR_TEST_INPUT_DIM];
+		// Create a context for the model, we always use a batch size of 1.
 		Context ctx;
-		// get_frozen_model_ctx();
-		Tensor* input_x = new WrappedRamTensor<float>({1, UTENSOR_INPUT_DIM}, (float*) input_data);
-		return;
+		Tensor* input_x = new WrappedRamTensor<float>({BATCH_SIZE, size}, arr);
+		get_frozen_model_ctx(ctx, input_x);
+		ctx.eval();
+
+		S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
+		int pred_label = *(pred_tensor->read<int>(0, 0));
+		return pred_label;
+	}
+
+	/* Very quick test to see if we can even allocate the model correctly. */
+	int utensor_test_load(int x) {
+		float input_data[UTENSOR_TEST_INPUT_DIM];
+		Context ctx;
+		Tensor* input_x = new WrappedRamTensor<float>({1, UTENSOR_TEST_INPUT_DIM}, (float*) input_data);
+		get_frozen_model_ctx(ctx, input_x);
+
+		ctx.eval();
+
+		S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
+		int pred_label = *(pred_tensor->read<int>(0, 0));
+
+		return pred_label;
 	}
 }
 
