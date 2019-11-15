@@ -14,6 +14,10 @@ how fast the chip can process these neural networks */
 #include "sequencelib.h"
 #include "sensor.h"
 
+// uTensor related machine learning
+#include "advanced_ml.h"
+
+
 #define TENSOR_ALLOC_SIZE 6000
 #define SUBTRACT_VAL 60
 #define STATE_LEN 5
@@ -37,6 +41,8 @@ void yaw_incr(int *yaw){
     *yaw = yaw_out;
     return;
 }
+
+
 void yaw_decr(int *yaw){
     int yaw_out = *yaw - YAW_INCR;
     if(yaw_out<-180){
@@ -45,6 +51,8 @@ void yaw_decr(int *yaw){
     *yaw = yaw_out;
     return;
 }
+
+
 static void check_multiranger_online() {
 	DEBUG_PRINT("Checking if multiranger ToF sensors online...\n");
 
@@ -73,6 +81,8 @@ uint8_t get_distance(uint16_t sensor_read){
     float frac = ((float)sensor_read-SENS_MIN)/(SENS_MAX-SENS_MIN) ;
     return (uint8_t)(frac*255);
 }
+
+
 static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
     //Step 1: move entire array by 1 state
     for(int i = (STATE_LEN*NUM_STATES-1);i>=STATE_LEN;i--)
@@ -88,6 +98,7 @@ static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
 
 }
 
+
 static void tfMicroDemoTask()
 {
 	static setpoint_t setpoint;
@@ -96,6 +107,17 @@ static void tfMicroDemoTask()
 
     DEBUG_PRINT("HELLO WORLD\n");
     DEBUG_PRINT("THIS IS WFU\n");
+
+    int test_int = 2;
+    int y = utensor_test(test_int);
+    DEBUG_PRINT("Original: %d\n", test_int);
+    DEBUG_PRINT("Doubled with Library: %d\n", y);
+
+    DEBUG_PRINT("Now trying to call uTensor\n");
+    utensor_test_load(5);
+    DEBUG_PRINT("FINISHED\n");
+
+
 
     /*
 	const CTfLiteModel* model = CTfLiteModel_create();

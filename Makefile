@@ -284,7 +284,12 @@ context.o \
 tensor.o \
 uTensorBase.o \
 vm.o \
-advanced_ml.o
+advanced_ml.o \
+frozen_model.o \
+uTensor_util.o \
+quantization_utils.o \
+MathOps.o \
+tensorIdxImporter.o 
 
 PROJ_OBJ += $(UTENSOR_SRCS)
 
@@ -375,6 +380,7 @@ INCLUDES += -Itfmicro/third_party/gemmlowp
 ################ uTensor INCLUDES #########################
 INCLUDES += -IuTensor
 INCLUDES += -IuTensor/
+INCLUDES += -IuTensor/uTensor
 
 
 ifeq ($(DEBUG), 1)
