@@ -1,5 +1,8 @@
 /* TFMicro Test Script: Tests to see the delay incurred by TF-Micro and
 how fast the chip can process these neural networks */
+#include <time.h>
+#include <stdlib.h>
+
 #include "deck.h"
 #include "system.h"
 #include "commander.h"
@@ -15,10 +18,8 @@ how fast the chip can process these neural networks */
 #include "sensor.h"
 
 // uTensor related machine learning
-#include "advanced_ml.h"
 
 
-#define TENSOR_ALLOC_SIZE 6000
 #define SUBTRACT_VAL 60
 #define STATE_LEN 5
 #define NUM_STATES 4
@@ -110,131 +111,59 @@ static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
 
 }
 
-
 static void tfMicroDemoTask()
 {
+    int command = 0;
 	static setpoint_t setpoint;
 	systemWaitStart();
 
-
-
-//    DEBUG_PRINT("Now trying to call uTensor\n");
-//    uint64_t start_time, end_time;
-//    int num_runs = 20;
-//
-//    start_time = usecTimestamp();
-//    float test_measurements[6];
-//    for (int i = 0 ; i < num_runs; i++) {
-//        for (int j = 0; j < 6; j++) {
-//            test_measurements[j] = i * 0.3;
-//        }
-//        int res = inference(test_measurements, 5);
-//    }
-//    end_time = usecTimestamp();
-//    DEBUG_PRINT("Time taken for %d inferences: %lld us\n", num_runs, (end_time - start_time));
-//    DEBUG_PRINT("Time taken per inference: %lld us\n", (end_time - start_time) / num_runs);
-//
-//    DEBUG_PRINT("FINISHED\n");
-
-
-
-
-	float r[3];
-	float input[6] = {0.599,0.325999,0.08,0.32,0.74,0.74};
-    uint16_t sensor_read = 0;
-    uint8_t sensor_mode = 0;
-	DEBUG_PRINT("Starting the advanced machine learning...\n");
+	float ESCAPE_SPEED = 0.2;
     float HOVER_HEIGHT = 0.8;
+    float rotate_threshold = 2.0;
     // Start in the air before doing ML
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
     distances d;
     getDistances(&d);
-    TSL2591_init();
-    uint8_t rand_arr[10] = {2, 2, 1, 1, 2, 1, 1, 1, 2, 1};
+    float front_sensor = d.front*0.001;
+    float yaw = 0;
+    srand(time(NULL));
+    int r = rand();
 
-
-    float dist =0;
-    int yaw = 0;
-    int command = 0;
-    float ESCAPE_SPEED = 0.5;
-    uint8_t goal_count = 0;
-    uint8_t found_goal = FALSE;
-    uint8_t rand_count = 0;
-
-    CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
-
+    // main loop
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
+
+        // safety statement -- kill drone when hand is over < 20 cm
         if(d.up/10 < 20)
         {
             break;
         }
-        vTaskDelay(M2T(300));
-        sensor_read = read_TSL2591(sensor_mode);
-        dist = get_distance(sensor_read);
 
-        //vTaskDelay(M2T(300));
-        //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
-		input[0] =  d.right*0.001;
-		input[1] =  d.front*0.001;
-		input[2] = d.left*0.001;
-		input[3] = d.back*0.001;
-		input[4] = dist;
-		input[5] = dist;
-        DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
+        front_sensor = d.front*0.001;    // used for obs avoidance
+
+        if (front_sensor < rotate_threshold) {
+            yaw  = rand()%180;
+            command = 1;
+        }
+        else{
+            command = 0;
+        }
 
         vTaskDelay(M2T(200));
-        //inference(input, 6, &r[0]);
-        CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
-        inference_new(wrapped_input, &r[0]);
-        destroy_tensor(wrapped_input);
 
-//        for(int i = 0; i< 6; i++){
-//            DEBUG_PRINT("%f \n",input[i]);
-//        }
-        for(int i = 0; i < 3; i++){
-            DEBUG_PRINT("%f \n", r[i]);
-        }
-//        DEBUG_PRINT("NEXT \n");
-        //DEBUG_PRINT("%i \n",res);
-        //command = argmax(res, 3);
-        command = argmax_float(r,3);
-
-		DEBUG_PRINT("Command: %i\n", command);
         switch (command) {
           case 0:
-//              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, (float)(yaw));
-              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, yaw);
               commanderSetSetpoint(&setpoint, 3);
               vTaskDelay(M2T(150));
               break;
           case 1:
-//              yaw_incr(&yaw);
-//              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
-                commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
-
-//              vTaskDelay(M2T(100));
-              break;
-          case 2:
-//                yaw_decr(&yaw);
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
-                commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(150));
-
-//              vTaskDelay(M2T(100));
-              break;
-          default:
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
-                commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(150));
+              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,yaw);
+              commanderSetSetpoint(&setpoint, 3);
+              vTaskDelay(M2T(1000));
               break;
       }
-//
 }
 
   // flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);

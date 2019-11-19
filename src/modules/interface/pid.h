@@ -41,7 +41,7 @@
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
 
 //#define PID_YAW_RATE_KP  120.0
-#define PID_YAW_RATE_KP  60.0
+#define PID_YAW_RATE_KP  30.0
 #define PID_YAW_RATE_KI  16.7
 #define PID_YAW_RATE_KD  0.0
 #define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
@@ -57,9 +57,9 @@
 #define PID_PITCH_INTEGRATION_LIMIT   20.0
 
 //#define PID_YAW_KP  6.0
-#define PID_YAW_KP 3.0
+#define PID_YAW_KP 1.5
 #define PID_YAW_KI  1.0
-#define PID_YAW_KD  0.35
+#define PID_YAW_KD  0.1
 #define PID_YAW_INTEGRATION_LIMIT     360.0
 
 

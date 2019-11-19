@@ -11,8 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sequenceranger.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sequenceranger.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/interface/pid.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/interface/pid.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +48,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -100,6 +102,7 @@
       <workItem from="1566425500844" duration="602000" />
       <workItem from="1574100386359" duration="17155000" />
       <workItem from="1574117880848" duration="457000" />
+      <workItem from="1574168129445" duration="2367000" />
     </task>
     <servers />
   </component>
