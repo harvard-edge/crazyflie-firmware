@@ -153,8 +153,11 @@ static void tfMicroDemoTask()
     TSL2591_init();
     uint8_t rand_arr[10] = {2, 2, 1, 1, 2, 1, 1, 1, 2, 1};
 
+    float c = 0;
+    float c_f = 1.0;
 
-    float dist =0;
+    float old_dist = 0;
+    float dist = 0;
     int yaw = 0;
     int command = 0;
     float ESCAPE_SPEED = 0.5;
@@ -170,18 +173,23 @@ static void tfMicroDemoTask()
         {
             break;
         }
+
         vTaskDelay(M2T(300));
         sensor_read = read_TSL2591(sensor_mode);
         dist = get_distance(sensor_read);
 
+        c = dist-old_dist;
+        c_f = 0.9*c_f + 0.1*c;
+
+        old_dist = dist;
         //vTaskDelay(M2T(300));
         //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
 		input[0] =  d.right*0.001;
 		input[1] =  d.front*0.001;
 		input[2] = d.left*0.001;
 		input[3] = d.back*0.001;
-		input[4] = dist;
-		input[5] = dist;
+		input[4] = 0.5*(c-c_f);
+		input[5] = 2*c_f-1;
         DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
 
         vTaskDelay(M2T(200));
@@ -190,12 +198,12 @@ static void tfMicroDemoTask()
         inference_new(wrapped_input, &r[0]);
         destroy_tensor(wrapped_input);
 
-//        for(int i = 0; i< 6; i++){
-//            DEBUG_PRINT("%f \n",input[i]);
-//        }
-        for(int i = 0; i < 3; i++){
-            DEBUG_PRINT("%f \n", r[i]);
+        for(int i = 0; i< 6; i++){
+            DEBUG_PRINT("%f \n",input[i]);
         }
+//        for(int i = 0; i < 3; i++){
+//            DEBUG_PRINT("%f \n", r[i]);
+//        }
 //        DEBUG_PRINT("NEXT \n");
         //DEBUG_PRINT("%i \n",res);
         //command = argmax(res, 3);

@@ -12,7 +12,6 @@
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
