@@ -105,8 +105,13 @@ static void tfMicroDemoTask()
 
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
+
 	int r[3];
+    float r_float[3];
 	uint8_t full_meas[20] = {40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120};
+	float full_meas_float[20] = {40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120, 40, 120, 120, 120, 120};
+    float test[6] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+
 	uint8_t input[5] = {40, 120, 120, 120, 120};
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
@@ -134,7 +139,8 @@ static void tfMicroDemoTask()
         getDistances(&d);
         
         // Going too close to the ceiling!
-        if(d.up / 10 < 20) {
+        if (d.up / 10 < 20) {
+            DEBUG_PRINT("Found item too close to top sensor\n");
             break;
         }
 
@@ -151,28 +157,18 @@ static void tfMicroDemoTask()
         if (DEBUG_SENSORS) {
             DEBUG_PRINT("sensor %i \n", sensor_read);
             DEBUG_PRINT("dist %i \n", dist);
-        }
-
-		// subtract from laser readings, this creates a save zone around objects
-//		for(int i=0;i<4;i++)
-//        {
-//		    if(input[i]>SUBTRACT_VAL){
-//		        input[i] = input[i] - SUBTRACT_VAL;
-//		    }
-//		    else{
-//		        input[i] = 0;
-//		    }
-//        }
-
-        if (DEBUG_SENSORS) {
 		    DEBUG_PRINT("LASERS: %i %i %i %i \n", input[0], input[1], input[2], input[3]);
         }
 
-        CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas, r);
+        // int status = inference_uint8(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas, 20, r);
+        int status = inference_float32(model, tensor_alloc, TENSOR_ALLOC_SIZE, test, 6, r_float);
+        // int status = inference_float32(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas_float, 20, r_float);
 		command = argmax(r, 3);
 
         if (DEBUG_VALUES) {
-		    DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
+            DEBUG_PRINT("Iteration %d with ml status %d\n", j, status);
+		    // DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
+		    DEBUG_PRINT("Q-Vals: %i %i %i \n", r_float[0], r_float[1], r_float[2]);
         }
 
         switch (command) {

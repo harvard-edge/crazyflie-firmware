@@ -134,70 +134,47 @@ extern "C" {
 		}
 		return 0;
 	}
+
+	int inference_float32(const CTfLiteModel* c_model, 
+			uint8_t* tensor, int alloc_size,
+			float* input, size_t input_size, float* result) {
+		tflite::MicroErrorReporter micro_error_reporter;
+		tflite::ErrorReporter* error_reporter = &micro_error_reporter;
+		::tflite::ops::micro::AllOpsResolver resolver;
+
+
+		const tflite::Model* model = reinterpret_cast<const tflite::Model*>(c_model);
+		tflite::SimpleTensorAllocator tensor_allocator(tensor, alloc_size);
+		tflite::MicroInterpreter interpreter(model, resolver, &tensor_allocator, error_reporter);
+		TfLiteTensor* model_input = interpreter.input(0);
+
+		if (model_input->type != kTfLiteFloat32) {
+			return -2;
+		}
+
+		memcpy(model_input->data.f, input, input_size * sizeof(float));
+
+		TfLiteStatus invoke_status = interpreter.Invoke();
+		if (invoke_status != kTfLiteOk) {
+			return -1;
+		}
+
+		TfLiteTensor* output = interpreter.output(0);
+
+		int NUM_CLASSES = 3;
+		for (int i = 0; i < NUM_CLASSES; i++) {
+			result[i] = static_cast<float>(output->data.f[i]);
+		}
+		return 0;
+	}
+
+
+
+
 }
 
 
 extern "C" int machine_learning_test(int n) {
-
-	tflite::MicroErrorReporter micro_error_reporter;
-	tflite::ErrorReporter* error_reporter = &micro_error_reporter;
-
-	// Map the model into a usable data structure. This doesn't involve any
-	// copying or parsing, it's a very lightweight operation.
-	// const tflite::Model* model = ::tflite::GetModel(tiny_mnist_model);
-	const tflite::Model* model = ::tflite::GetModel(fc_tflite);
-	//consolePrintf("Loaded in model small_mnist_model.\n");
-	//consolePrintf("Model Version: %d\n", model->version());
-	//consolePrintf("Model Description: %s\n", model->description());
-
-	if (model->version() != TFLITE_SCHEMA_VERSION) {
-		error_reporter->Report(
-				"Modeltiny_mnist_model provided is schema version %d not equal "
-				"to supported version %d.\n",
-				model->version(), TFLITE_SCHEMA_VERSION);
-		return 1;
-	}
-
-	// This pulls in all the operation implementations we need.
-	tflite::ops::micro::AllOpsResolver resolver;
-
-	// Create an area of memory to use for input, output, and intermediate arrays.
-	// The size of this will depend on the model you're using, and may need to be
-	// determined by experimentation.
-	const int tensor_arena_size = 1024 * 10;
-	// consolePrintf("Trying to allocate tensor arena of size %d bytes\n", tensor_arena_size);
-	return 1;
-	for (int i = 0; i < 100000; i++) {}
-	uint8_t tensor_arena[tensor_arena_size];
-	tflite::SimpleTensorAllocator tensor_allocator(tensor_arena, tensor_arena_size);
-	consolePrintf("Allocated the tensors.\n");
-
-	// Build an interpreter to runtiny_mnist_model the model with.
-	consolePrintf("Attempting to build the interpreter.\n");
-	tflite::MicroInterpreter interpreter(model, resolver, &tensor_allocator, error_reporter);
-	consolePrintf("The interpreter has been built.\n");
-	
-	TfLiteTensor* model_input = interpreter.input(0);
-	// Get information about the memory area to use for the model's input.
-	consolePrintf("Dims->size: %d\n", model_input->dims->size);
-	consolePrintf("Dims->data[0]: %d\n", model_input->dims->data[0]);
-	consolePrintf("Dims->data[1]: %d\n", model_input->dims->data[1]);
-	printf("Dims->data[2]: %d\n", model_input->dims->data[2]);
-	printf("kTfLiteUInt8 enum value: %d\n", kTfLiteUInt8);
-	printf("model_input->type: %d\n", model_input->type);
-
-	// Run the model on the spectrogram input and make sure it succeeds.
-	TfLiteStatus invoke_status = interpreter.Invoke();
-	if (invoke_status != kTfLiteOk) {
-		error_reporter->Report("Invoke failed");
-		return 1;
-	}
-
-	// The output from the model is a vector containing the scores for each
-	// kind of prediction, so figure out what the highest scoring category was.
-	TfLiteTensor* output = interpreter.output(0);
-	printf("First byte of output: %d", output->data.uint8[0]);
-
 	return 0;
 }
 

@@ -1,7 +1,7 @@
 // Choices of model in tfmicro_models.h
 // Examples are: fc_tflite, micro_conv_tflite, etc
 #ifndef TFMICRO_MODEL
-#define TFMICRO_MODEL fc_320_tflite
+#define TFMICRO_MODEL source_seeking
 #endif
 
 // type of model. uint8_t if quantized, usually float if not.
@@ -19,6 +19,7 @@ typedef struct CTfLiteModel CTfLiteModel;
 const CTfLiteModel* CTfLiteModel_create();
 void CTfLiteModel_destroy(CTfLiteModel*);
 int CTfLiteModel_version(CTfLiteModel* v);
+int CTfLiteModel_input_size(CTfLiteModel* v);
 
 
 struct CTfInterpreter; // An opaque type that we'll use as a handle
@@ -29,7 +30,7 @@ int CTfLiteModel_dimensions(const CTfLiteModel* c_model, uint8_t* arena, size_t 
 // Actual inference functions
 void CTfInterpreter_simple_fc(const CTfLiteModel* c_model, uint8_t* tensor, int alloc_size, uint8_t* input, int* result);
 int inference_uint8(const CTfLiteModel*, uint8_t* tensor, int alloc_size, uint8_t* input, size_t input_size, int* result);
-int inference_float32(const CTfLiteModel*, float* tensor, int alloc_size, uint8_t* input, size_t input_size, int* result);
+int inference_float32(const CTfLiteModel*, uint8_t* tensor, int alloc_size, float* input, size_t input_size, float* result);
 
 #ifdef __cplusplus
 }
