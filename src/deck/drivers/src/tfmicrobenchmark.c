@@ -50,7 +50,6 @@ static void tfMicroBenchTask()
 			input[4] = 100; 
 			input[5] = 100;
 			// CTfInterpreter_simple_fc(model, tensor_alloc, 12000, input, r);
-			CTfInterpreter_simple_conv(model, tensor_alloc, 12000, input, 6, r, 9);
 		}
 		end = usecTimestamp();
 		DEBUG_PRINT("time taken: %lld us\n", (end - start));

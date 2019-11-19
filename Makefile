@@ -253,16 +253,18 @@ op_resolver.o \
 kernel_util.o \
 quantization_util.o \
 model_settings.o \
-audio_provider.o \
-feature_provider.o \
 preprocessor.o \
-no_features_data.o \
-yes_features_data.o \
-tiny_conv_model_data.o \
-recognize_commands.o \
 machinelearning.o \
 tfmicro_models.o \
 sensor.o
+
+# These probably shouldn't be needed, if you get linking errors add them back
+# feature_provider.o \
+# recognize_commands.o \
+# audio_provider.o \
+# no_features_data.o \
+# yes_features_data.o \
+# tiny_conv_model_data.o \
 
 PROJ_OBJ += $(TF_SRCS)
 

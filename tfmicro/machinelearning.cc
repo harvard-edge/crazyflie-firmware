@@ -30,14 +30,17 @@ extern "C" {
 		return reinterpret_cast<const CTfLiteModel*>(
 			::tflite::GetModel(TFMICRO_MODEL));
 	}
+
 	void CTfLiteModel_destroy(CTfLiteModel* v) {
 		delete reinterpret_cast<tflite::Model*>(v);
 	}
 	
+
 	int CTfLiteModel_version(CTfLiteModel* v) {
 		return static_cast<int>(reinterpret_cast<tflite::Model*>(v)->version());
 	}	
 	
+
 	/**
 	 * TF Micro Interpreter wrapper functions
 	 */
@@ -94,9 +97,19 @@ extern "C" {
 		}
 	}
 
-	void CTfInterpreter_simple_conv(const CTfLiteModel* c_model, uint8_t* tensor, size_t alloc_size,
-		model_type* input, size_t input_size, model_type* result, size_t result_size) {
-		
+	/* Run a single inference on some model, using uint8 quantization.
+		Input: TFLiteModel, already wrapped in C.
+			   tensor: buffer used for performing operations.
+			   alloc_size: memory to allocate for tensor operations
+			   result: address to array to write results into
+		Output:
+			Error code:
+				0: success
+				-1: Evaluation step did not return OK
+	*/
+	int inference_uint8(const CTfLiteModel* c_model, 
+			uint8_t* tensor, int alloc_size,
+			uint8_t* input, size_t input_size, int* result) {
 		tflite::MicroErrorReporter micro_error_reporter;
 		tflite::ErrorReporter* error_reporter = &micro_error_reporter;
 		::tflite::ops::micro::AllOpsResolver resolver;
@@ -106,15 +119,20 @@ extern "C" {
 		tflite::MicroInterpreter interpreter(model, resolver, &tensor_allocator, error_reporter);
 		TfLiteTensor* model_input = interpreter.input(0);
 
-		memcpy(model_input->data.uint8, input, input_size * sizeof(model_type));
+		memcpy(model_input->data.uint8, input, input_size * sizeof(uint8_t));
 
 		TfLiteStatus invoke_status = interpreter.Invoke();
 		if (invoke_status != kTfLiteOk) {
-			return;
+			return -1;
 		}
 
 		TfLiteTensor* output = interpreter.output(0);
-		memcpy(result, output->data.uint8, result_size * sizeof(model_type));
+
+		int NUM_CLASSES = 3;
+		for (int i = 0; i < NUM_CLASSES; i++) {
+			result[i] = static_cast<int>(output->data.uint8[i]);
+		}
+		return 0;
 	}
 }
 

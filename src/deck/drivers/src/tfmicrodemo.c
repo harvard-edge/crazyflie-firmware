@@ -29,6 +29,10 @@ how fast the chip can process these neural networks */
 #define DIST_MIN 90
 #define RAND_ACTION_RATE 30
 
+#define DEBUG_SENSORS false
+#define DEBUG_VALUES true
+
+
 void yaw_incr(int *yaw){
     int yaw_out = *yaw + YAW_INCR;
     if(yaw_out>180){
@@ -37,6 +41,8 @@ void yaw_incr(int *yaw){
     *yaw = yaw_out;
     return;
 }
+
+
 void yaw_decr(int *yaw){
     int yaw_out = *yaw - YAW_INCR;
     if(yaw_out<-180){
@@ -45,6 +51,8 @@ void yaw_decr(int *yaw){
     *yaw = yaw_out;
     return;
 }
+
+
 static void check_multiranger_online() {
 	DEBUG_PRINT("Checking if multiranger ToF sensors online...\n");
 
@@ -64,15 +72,17 @@ static void check_multiranger_online() {
 
 
 uint8_t get_distance(uint16_t sensor_read){
-    if(sensor_read<SENS_MIN){
+    if (sensor_read < SENS_MIN) {
         sensor_read = SENS_MIN;
     }
-    if(sensor_read>SENS_MAX){
-        sensor_read=SENS_MAX;
+    if (sensor_read > SENS_MAX) {
+        sensor_read = SENS_MAX;
     }
-    float frac = ((float)sensor_read-SENS_MIN)/(SENS_MAX-SENS_MIN) ;
-    return (uint8_t)(frac*255);
+    float frac = ((float) sensor_read - SENS_MIN)/(SENS_MAX-SENS_MIN) ;
+    return (uint8_t) (frac*255);
 }
+
+
 static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
     //Step 1: move entire array by 1 state
     for(int i = (STATE_LEN*NUM_STATES-1);i>=STATE_LEN;i--)
@@ -100,16 +110,16 @@ static void tfMicroDemoTask()
 	uint8_t input[5] = {40, 120, 120, 120, 120};
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
-	DEBUG_PRINT("Starting the advanced machine learning...\n");
     float HOVER_HEIGHT = 0.8;
+
     // Start in the air before doing ML
     flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
+
     distances d;
     getDistances(&d);
     TSL2591_init();
     uint8_t rand_arr[10] = {2, 2, 1, 1, 2, 1, 1, 1, 2, 1};
-
 
     uint8_t dist =0;
     int yaw = 0;
@@ -118,46 +128,31 @@ static void tfMicroDemoTask()
     uint8_t goal_count = 0;
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
+
+    // Main loop
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
-        //DEBUG_PRINT("yaw: %d \n",yaw);
-
-        /* Defining the input to the network*/
-        // obs avoidance will
-//		input[0] = (uint8_t) ( d.front / 10);
-//		input[1] = (uint8_t) ( d.right / 10);
-//		input[2] = (uint8_t) ( d.back / 10);
-//		input[3] = (uint8_t) ( d.left / 10);
-//		input[4] = (uint8_t) ( d.up / 10);
-//		input[5] = (uint8_t) ( d.down / 10);
-        if(d.up/10 < 20)
-        {
+        
+        // Going too close to the ceiling!
+        if(d.up / 10 < 20) {
             break;
         }
-//        if(dist>GOAL_THRES){
-//            goal_count++;
-//            if(goal_count>=GOAL_THRES_COUNT){
-//                break;
-//            }
-//        }
-//        DEBUG_PRINT("%i \n",sensor_read);
-//        dist = 128;
-    //    vTaskDelay(M2T(500));
+
         sensor_read = read_TSL2591(sensor_mode);
         dist = get_distance(sensor_read);
 
-        //vTaskDelay(M2T(300));
-        //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
-		input[0] = (uint8_t) ( d.right* 0.06375);
-		input[1] = (uint8_t) ( d.front * 0.06375);
-		input[2] = (uint8_t) ( d.left * 0.06375);
-		input[3] = (uint8_t) ( d.back * 0.06375);
+		input[0] = (uint8_t) (d.right * 0.06375);
+		input[1] = (uint8_t) (d.front * 0.06375);
+		input[2] = (uint8_t) (d.left * 0.06375);
+		input[3] = (uint8_t) (d.back * 0.06375);
 		input[4] = (uint8_t) dist;
 		update_state(&full_meas, d,dist);
-		//DEBUG_PRINT("full meas: %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i \n",full_meas[0],full_meas[1],full_meas[2],full_meas[3],full_meas[4],full_meas[5],full_meas[6],full_meas[7],
-		 //       full_meas[8],full_meas[9], full_meas[10],full_meas[11],full_meas[12],full_meas[13],full_meas[14],full_meas[15],full_meas[16],full_meas[17],full_meas[18],full_meas[19]);
-        DEBUG_PRINT("sensor %i \n",sensor_read);
-        DEBUG_PRINT("dist %i \n",dist);
+
+        if (DEBUG_SENSORS) {
+            DEBUG_PRINT("sensor %i \n", sensor_read);
+            DEBUG_PRINT("dist %i \n", dist);
+        }
+
 		// subtract from laser readings, this creates a save zone around objects
 //		for(int i=0;i<4;i++)
 //        {
@@ -168,77 +163,50 @@ static void tfMicroDemoTask()
 //		        input[i] = 0;
 //		    }
 //        }
-//		DEBUG_PRINT("LASERS: %i %i %i %i \n",input[0],input[1],input[2],input[3]);
 
-//        input[0] = (uint8_t)(1);
-//        input[1] = (uint8_t)(1);
-//        input[2] = (uint8_t)(1);
-//        input[3] = (uint8_t)(1);
-//        input[4] = (uint8_t)(1);
+        if (DEBUG_SENSORS) {
+		    DEBUG_PRINT("LASERS: %i %i %i %i \n", input[0], input[1], input[2], input[3]);
+        }
 
         CTfInterpreter_simple_fc(model, tensor_alloc, TENSOR_ALLOC_SIZE, full_meas, r);
-
-		//DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
 		command = argmax(r, 3);
 
-//        if(j%RAND_ACTION_RATE==0)
-//        {
-//            if(command != 0){
-//                if(command ==1)
-//                {
-//                    command = 2;
-//                }
-//                else{
-//                    command = 1;
-//                }
-//            }
-//            else{
-//                command = rand_arr[rand_count%10];
-//                rand_count++;
-//            }
-//
-//        }
-		//DEBUG_PRINT("Command: %i\n", command);
+        if (DEBUG_VALUES) {
+		    DEBUG_PRINT("Q-Vals: %i %i %i \n",r[0],r[1],r[2]);
+        }
+
         switch (command) {
-          case 0:
-//              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, (float)(yaw));
-              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
-              commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
-              break;
-          case 1:
-//              yaw_incr(&yaw);
-//              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
+            case 0:
+                setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
+                commanderSetSetpoint(&setpoint, 3);
+                vTaskDelay(M2T(150));
+                break;
+            case 1:
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
                 commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
-
-//              vTaskDelay(M2T(100));
-              break;
-          case 2:
-//                yaw_decr(&yaw);
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
+                vTaskDelay(M2T(150));
+                break;
+            case 2:
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
                 commanderSetSetpoint(&setpoint, 3);
                 vTaskDelay(M2T(150));
-
-//              vTaskDelay(M2T(100));
-              break;
-          default:
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
+                break;
+            default:
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
                 commanderSetSetpoint(&setpoint, 3);
                 vTaskDelay(M2T(40));
-              break;
-      }
-//
-}
+                break;
+        }
+    }
 
-	// Slowly lower to a safe height before quitting, or else CRASH!
-  flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
+	// Slowly lower to a safe height before quitting, or else things will break.
+    flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
 	for (;;) { vTaskDelay(M2T(1000)); }
 }
 
+
+
+/* Required functions to be implemented to be registered as a deck */
 static void init() {
 	xTaskCreate(tfMicroDemoTask, "tfMicroDemoTask",
 		4500 /* Stack size in terms of WORDS (usually 4 bytes) */,

@@ -28,7 +28,8 @@ int CTfLiteModel_dimensions(const CTfLiteModel* c_model, uint8_t* arena, size_t 
 
 // Actual inference functions
 void CTfInterpreter_simple_fc(const CTfLiteModel* c_model, uint8_t* tensor, int alloc_size, uint8_t* input, int* result);
-void CTfInterpreter_simple_conv(const CTfLiteModel*, uint8_t*, size_t, model_type*, size_t, model_type*, size_t);
+int inference_uint8(const CTfLiteModel*, uint8_t* tensor, int alloc_size, uint8_t* input, size_t input_size, int* result);
+int inference_float32(const CTfLiteModel*, float* tensor, int alloc_size, uint8_t* input, size_t input_size, int* result);
 
 #ifdef __cplusplus
 }
