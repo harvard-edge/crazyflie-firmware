@@ -13,7 +13,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.h" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +22,9 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="crazyflie-firmware" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -96,7 +98,8 @@
       <workItem from="1565312319859" duration="4464000" />
       <workItem from="1565632772651" duration="10844000" />
       <workItem from="1566425500844" duration="602000" />
-      <workItem from="1574100386359" duration="15072000" />
+      <workItem from="1574100386359" duration="17155000" />
+      <workItem from="1574117880848" duration="457000" />
     </task>
     <servers />
   </component>

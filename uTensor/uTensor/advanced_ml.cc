@@ -35,7 +35,9 @@ extern "C" {
     }
 
     void destroy_tensor(CWrappedRamTensor* tensor){
-        free(tensor);
+        WrappedRamTensor<float>* cpp_tensor = reinterpret_cast<WrappedRamTensor<float>*>(tensor);
+        delete cpp_tensor;
+        return;
     }
 
 	/* Does one inference, returns the results.*/
@@ -46,7 +48,6 @@ extern "C" {
 		Tensor* input_x = new WrappedRamTensor<float>({BATCH_SIZE, size}, arr);
 		get_frozen_model_ctx(ctx, input_x);
 		ctx.eval();
-		input_x = NULL;
 
 		S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
 
@@ -54,9 +55,11 @@ extern "C" {
 		    output[i] = *(pred_tensor->read<float>(i, 0));
 		}
 
+		delete &ctx;
+        delete input_x;
+
 		return 1;
 	}
-
 
 
 	void inference_new(CWrappedRamTensor* input_x, float *output) {

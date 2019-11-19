@@ -162,6 +162,7 @@ static void tfMicroDemoTask()
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
 
+    CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
 
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
@@ -184,7 +185,7 @@ static void tfMicroDemoTask()
         DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
 
         vTaskDelay(M2T(200));
-        inference(input, 6, &r[0]);
+        //inference(input, 6, &r[0]);
         CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
         inference_new(wrapped_input, &r[0]);
         destroy_tensor(wrapped_input);
