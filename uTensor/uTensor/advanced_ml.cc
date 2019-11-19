@@ -30,14 +30,12 @@ extern "C" {
     CWrappedRamTensor* CWrappedRamTensor_set(CWrappedRamTensor* tensor, float *arr) {
         WrappedRamTensor<float>* new_tensor = reinterpret_cast<WrappedRamTensor<float>*>(tensor);
         new_tensor->setPointer(arr) ;
-        tensor = reinterpret_cast<CWrappedRamTensor*>(new_tensor);
-        return tensor;
+         return reinterpret_cast<CWrappedRamTensor*>(new_tensor);
     }
 
     void destroy_tensor(CWrappedRamTensor* tensor){
         WrappedRamTensor<float>* cpp_tensor = reinterpret_cast<WrappedRamTensor<float>*>(tensor);
         delete cpp_tensor;
-        return;
     }
 
 	/* Does one inference, returns the results.*/
@@ -54,23 +52,35 @@ extern "C" {
 		for (int i = 0; i < pred_tensor->getSize(); i++) {
 		    output[i] = *(pred_tensor->read<float>(i, 0));
 		}
-
-		delete &ctx;
-        delete input_x;
-
 		return 1;
 	}
 
+    /* Does one inference, returns the results.*/
+    void inference_test(float *arr, unsigned int size, float *output) {
+        float input_data[size];
+        // Create a context for the model, we always use a batch size of 1.
+        Context ctx;
+        Tensor* input_x = new WrappedRamTensor<float>({BATCH_SIZE, size}, arr);
+        get_frozen_model_ctx(ctx, input_x);
+        ctx.eval();
+        S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
+        for (int i = 0; i < pred_tensor->getSize(); i++) {
+            output[i] = *(pred_tensor->read<float>(i, 0));
+        }
+        delete input_x;
+    }
 
 	void inference_new(CWrappedRamTensor* input_x, float *output) {
         // Create a context for the model, we always use a batch size of 1.
-        Context ctx;
-        get_frozen_model_ctx(ctx, reinterpret_cast<WrappedRamTensor<float>*>(input_x));
-        ctx.eval();
-        S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
+        {
+            Context ctx;
+            get_frozen_model_ctx(ctx, reinterpret_cast<WrappedRamTensor<float> *>(input_x));
+            ctx.eval();
+            S_TENSOR pred_tensor = ctx.get(UTENSOR_OUTPUT_NODE);
 
-        for (int i = 0; i < pred_tensor->getSize(); i++) {
-            output[i] = *(pred_tensor->read<float>(i, 0));
+            for (int i = 0; i < pred_tensor->getSize(); i++) {
+                output[i] = *(pred_tensor->read<float>(i, 0));
+            }
         }
     }
 

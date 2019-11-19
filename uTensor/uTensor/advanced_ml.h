@@ -12,6 +12,8 @@ extern "C" {
 #endif
 
 int inference(float*, unsigned int, float *output);
+void inference_test(float*, unsigned int, float *output);
+
 int utensor_test_load(int x);
 int utensor_test(int x);
 

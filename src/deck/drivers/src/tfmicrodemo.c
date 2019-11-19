@@ -33,6 +33,8 @@ how fast the chip can process these neural networks */
 #define DIST_MIN 90
 #define RAND_ACTION_RATE 30
 
+#define DEBUG_VALUES false
+
 void yaw_incr(int *yaw){
     int yaw_out = *yaw + YAW_INCR;
     if(yaw_out>180){
@@ -165,12 +167,11 @@ static void tfMicroDemoTask()
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
 
-    CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
+    // CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
 
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
-        if(d.up/10 < 20)
-        {
+        if (d.up / 10 < 20) {
             break;
         }
 
@@ -178,38 +179,52 @@ static void tfMicroDemoTask()
         sensor_read = read_TSL2591(sensor_mode);
         dist = get_distance(sensor_read);
 
-        c = dist-old_dist;
-        c_f = 0.9*c_f + 0.1*c;
+        c = dist - old_dist;
+        c_f = 0.9 * c_f + 0.1 * c;
 
         old_dist = dist;
         //vTaskDelay(M2T(300));
         //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
-		input[0] =  d.right*0.001;
-		input[1] =  d.front*0.001;
-		input[2] = d.left*0.001;
-		input[3] = d.back*0.001;
-		input[4] = 0.5*(c-c_f);
-		input[5] = 2*c_f-1;
-        DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
+        input[0] = d.right * 0.001;
+        input[1] = d.front * 0.001;
+        input[2] = d.left * 0.001;
+        input[3] = d.back * 0.001;
+        input[4] = 0.5 * (c - c_f);
+        input[5] = 2 * c_f - 1;
 
-        vTaskDelay(M2T(200));
-        //inference(input, 6, &r[0]);
-        CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
-        inference_new(wrapped_input, &r[0]);
-        destroy_tensor(wrapped_input);
 
-        for(int i = 0; i< 6; i++){
-            DEBUG_PRINT("%f \n",input[i]);
-        }
-//        for(int i = 0; i < 3; i++){
-//            DEBUG_PRINT("%f \n", r[i]);
+//        {
+//            vTaskDelay(M2T(200));
+//            // inference(input, 6, &r[0]);
+//            CWrappedRamTensor *wrapped_input = CWrappedRamTensor_create(&input[0]);
+//
+//            DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
+//
+//            // CWrappedRamTensor_set(wrapped_input, &input[0]);
+//            inference_new(wrapped_input, &r[0]);
 //        }
-//        DEBUG_PRINT("NEXT \n");
-        //DEBUG_PRINT("%i \n",res);
-        //command = argmax(res, 3);
-        command = argmax_float(r,3);
 
-		DEBUG_PRINT("Command: %i\n", command);
+        {
+            vTaskDelay(M2T(50));
+            inference_test(input, 6, &r[0]);
+            DEBUG_PRINT("Iteration %d\n", j);
+        }
+
+        if (DEBUG_VALUES) {
+            for (int i = 0; i < 6; i++) {
+                DEBUG_PRINT("%f \n", input[i]);
+            }
+        }
+
+
+        // DEBUG_PRINT("%i \n",res);
+        // command = argmax(res, 3);
+        command = argmax_float(r, 3);
+
+
+
+
+		// DEBUG_PRINT("Command: %i\n", command);
         switch (command) {
           case 0:
 //              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, (float)(yaw));
