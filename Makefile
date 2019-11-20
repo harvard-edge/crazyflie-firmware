@@ -112,29 +112,29 @@ VPATH += src/init src/hal/src src/modules/src src/utils/src src/drivers/bosch/sr
 # Need to compile TF Micro with some limited C++-11 support
 # and standard libraries for math.
 # Add all subdirectories to the include path so we have these headers
-VPATH += tfmicro
-VPATH += tfmicro/third_party
-VPATH += tfmicro/third_party/flatbuffers
-VPATH += tfmicro/third_party/gemmlowp
-VPATH += tfmicro/tensorflow/lite/core/api
-VPATH += tfmicro/tensorflow/lite/c
-VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
-VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
-VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
-VPATH += tfmicro/tensorflow/lite/experimental/micro
-VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
-VPATH += tfmicro/tensorflow/lite/kernels/internal
-VPATH += tfmicro/tensorflow/lite/kernels
+# VPATH += tfmicro
+# VPATH += tfmicro/third_party
+# VPATH += tfmicro/third_party/flatbuffers
+# VPATH += tfmicro/third_party/gemmlowp
+# VPATH += tfmicro/tensorflow/lite/core/api
+# VPATH += tfmicro/tensorflow/lite/c
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
+# VPATH += tfmicro/tensorflow/lite/experimental/micro
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
+# VPATH += tfmicro/tensorflow/lite/kernels/internal
+# VPATH += tfmicro/tensorflow/lite/kernels
 
-######################### uTensor Compilation ##################
-VPATH += uTensor
-VPATH += uTensor/
-VPATH += uTensor/uTensor
-VPATH += uTensor/uTensor/core
-VPATH += uTensor/uTensor/loaders
-VPATH += uTensor/uTensor/ops
-VPATH += uTensor/uTensor/ops/cmsis_ops
-VPATH += uTensor/uTensor/util
+# ######################### uTensor Compilation ##################
+# VPATH += uTensor
+# VPATH += uTensor/
+# VPATH += uTensor/uTensor
+# VPATH += uTensor/uTensor/core
+# VPATH += uTensor/uTensor/loaders
+# VPATH += uTensor/uTensor/ops
+# VPATH += uTensor/uTensor/ops/cmsis_ops
+# VPATH += uTensor/uTensor/util
 
 
 ############### Source files configuration ################
@@ -161,6 +161,8 @@ PROJ_OBJ += usb_bsp.o usblink.o usbd_desc.o usb.o
 PROJ_OBJ += crtp.o ledseq.o freeRTOSdebug.o buzzer.o
 PROJ_OBJ += pm_$(CPU).o syslink.o radiolink.o ow_syslink.o proximity.o usec_time.o
 PROJ_OBJ += sensors.o
+PROJ_OBJ += mlp_inference.o
+
 
 # libdw
 PROJ_OBJ += libdw1000.o libdw1000Spi.o
@@ -227,10 +229,10 @@ PROJ_OBJ += sequence.o
 PROJ_OBJ += sequencelib.o
 PROJ_OBJ += sequenceranger.o
 PROJ_OBJ += sequencerangerdebug.o    # deck name: sequenceRangerDebug
-PROJ_OBJ += tfmicrobenchmark.o      # deck name: tfMicroBench
-PROJ_OBJ += tfmicrodebug.o           # deck name: tfMicroDebug
+# PROJ_OBJ += tfmicrobenchmark.o      # deck name: tfMicroBench
+# PROJ_OBJ += tfmicrodebug.o           # deck name: tfMicroDebug
 PROJ_OBJ += tfmicrodemo.o           # deck name: tfMicroDemo
-PROJ_OBJ += sequencedodge.o          # deck name: sequenceDodge
+# PROJ_OBJ += sequencedodge.o          # deck name: sequenceDodge
 
 # Adjust this flag to "force run" the file that you created in the
 # src/deck/drivers/src folder. This overrides the default loading
@@ -239,59 +241,57 @@ PROJ_OBJ += sequencedodge.o          # deck name: sequenceDodge
 # following -DDECK_FORCE flag to your file. 
 CFLAGS += -DDECK_FORCE=tfMicroDemo
 # Put the name of the model you want to put in here!
-CFLAGS += -D TFMICRO_MODEL=fc_320_tflite
+# CFLAGS += -D TFMICRO_MODEL=fc_320_tflite
 
 
 ######################### TF Micro Compilation ##################
 # Need to compile TF Micro with some limited C++-11 support
-# and standard libraries for math. Add all objects needed for compile.
-TF_SRCS := \
-c_api_internal.o \
-debug_log.o \
-micro_error_reporter.o \
-micro_mutable_op_resolver.o \
-simple_tensor_allocator.o \
-debug_log_numbers.o \
-micro_interpreter.o \
-depthwise_conv.o \
-softmax.o \
-all_ops_resolver.o \
-fully_connected.o \
-error_reporter.o \
-flatbuffer_conversions.o \
-op_resolver.o \
-kernel_util.o \
-quantization_util.o \
-model_settings.o \
-audio_provider.o \
-feature_provider.o \
-preprocessor.o \
-no_features_data.o \
-yes_features_data.o \
-tiny_conv_model_data.o \
-recognize_commands.o \
-machinelearning.o \
-tfmicro_models.o \
-sensor.o
+# # and standard libraries for math. Add all objects needed for compile.
+# TF_SRCS := \
+# c_api_internal.o \
+# debug_log.o \
+# micro_error_reporter.o \
+# micro_mutable_op_resolver.o \
+# simple_tensor_allocator.o \
+# debug_log_numbers.o \
+# micro_interpreter.o \
+# depthwise_conv.o \
+# softmax.o \
+# all_ops_resolver.o \
+# fully_connected.o \
+# error_reporter.o \
+# flatbuffer_conversions.o \
+# op_resolver.o \
+# kernel_util.o \
+# quantization_util.o \
+# model_settings.o \
+# audio_provider.o \
+# feature_provider.o \
+# preprocessor.o \
+# no_features_data.o \
+# yes_features_data.o \
+# tiny_conv_model_data.o \
+# recognize_commands.o \
+# sensor.o
 
-PROJ_OBJ += $(TF_SRCS)
+PROJ_OBJ += sensor.o
 
-######################### uTensor Compilation ##################
-# Need to compile uTensor with some limited C++-11 support
-# and standard libraries for math. Add all objects needed for compile.
-UTENSOR_SRCS := \
-context.o \
-tensor.o \
-uTensorBase.o \
-vm.o \
-advanced_ml.o \
-frozen_model.o \
-uTensor_util.o \
-quantization_utils.o \
-MathOps.o \
-tensorIdxImporter.o 
-
-PROJ_OBJ += $(UTENSOR_SRCS)
+# ######################### uTensor Compilation ##################
+# # Need to compile uTensor with some limited C++-11 support
+# # and standard libraries for math. Add all objects needed for compile.
+# UTENSOR_SRCS := \
+# context.o \
+# tensor.o \
+# uTensorBase.o \
+# vm.o \
+# advanced_ml.o \
+# frozen_model.o \
+# uTensor_util.o \
+# quantization_utils.o \
+# MathOps.o \
+# tensorIdxImporter.o
+#
+# PROJ_OBJ += $(UTENSOR_SRCS)
 
 
 ifeq ($(LPS_TDOA_ENABLE), 1)
@@ -367,20 +367,20 @@ INCLUDES += -I$(LIB)/FatFS
 INCLUDES += -I$(LIB)/vl53l1
 INCLUDES += -I$(LIB)/vl53l1/core/inc
 
-# Add our tfmicro library!
-################ TF MICRO INCLUDES #########################
-INCLUDES += -Itfmicro/
-INCLUDES += -Itfmicro
-INCLUDES += -Itfmicro/third_party/flatbuffers
-INCLUDES += -Itfmicro/third_party/flatbuffers/include
-INCLUDES += -Itfmicro/third_party
-INCLUDES += -Itfmicro/third_party/gemmlowp
-
-
-################ uTensor INCLUDES #########################
-INCLUDES += -IuTensor
-INCLUDES += -IuTensor/
-INCLUDES += -IuTensor/uTensor
+# # Add our tfmicro library!
+# ################ TF MICRO INCLUDES #########################
+# INCLUDES += -Itfmicro/
+# INCLUDES += -Itfmicro
+# INCLUDES += -Itfmicro/third_party/flatbuffers
+# INCLUDES += -Itfmicro/third_party/flatbuffers/include
+# INCLUDES += -Itfmicro/third_party
+# INCLUDES += -Itfmicro/third_party/gemmlowp
+#
+#
+# ################ uTensor INCLUDES #########################
+# INCLUDES += -IuTensor
+# INCLUDES += -IuTensor/
+# INCLUDES += -IuTensor/uTensor
 
 
 ifeq ($(DEBUG), 1)

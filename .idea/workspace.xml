@@ -10,10 +10,185 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/deck/drivers/src/weights.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrobenchmark.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodebug.c" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.h" beforeDir="false" afterPath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/machinelearning.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/machinelearning.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/mnistdata.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/c/builtin_op_data.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/c/c_api_internal.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/c/c_api_internal.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/error_reporter.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/error_reporter.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/flatbuffer_conversions.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/flatbuffer_conversions.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/op_resolver.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/core/api/op_resolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/compatibility.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/debug_log.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/debug_log.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/debug_log_numbers.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/debug_log_numbers.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/audio_provider.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/audio_provider.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/feature_provider.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/feature_provider.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/model_settings.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/model_settings.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/no_features_data.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/no_features_data.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/preprocessor.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/preprocessor.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/recognize_commands.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/recognize_commands.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/tiny_conv_model_data.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/tiny_conv_model_data.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/yes_features_data.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech/yes_features_data.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/all_ops_resolver.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/all_ops_resolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/depthwise_conv.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/fully_connected.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/kernels/softmax.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_error_reporter.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_error_reporter.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_interpreter.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_interpreter.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_mutable_op_resolver.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/micro_mutable_op_resolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/simple_tensor_allocator.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/simple_tensor_allocator.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/testing/micro_test.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/experimental/micro/testing/test_utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/common.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/compatibility.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/quantization_util.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/quantization_util.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/reference/depthwiseconv_float.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/reference/depthwiseconv_uint8.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/reference/fully_connected.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/reference/softmax.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/round.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/tensor_ctypes.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/internal/types.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/kernel_util.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/kernel_util.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/op_macros.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/kernels/padding.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/schema/schema_generated.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tensorflow/lite/version.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tf_micro_model_backup.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tfmicro_models.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/tfmicro_models.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/flatbuffers/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/flatbuffers/include/flatbuffers/base.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/flatbuffers/include/flatbuffers/flatbuffers.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/flatbuffers/include/flatbuffers/stl_emulation.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/gemmlowp/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/gemmlowp/fixedpoint/fixedpoint.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/gemmlowp/fixedpoint/fixedpoint_sse.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/third_party/gemmlowp/internal/detect_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/benchmark_conv.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/benchmark_fc.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/checkpoint" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17600.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17600.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17600.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17700.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17700.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17700.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17800.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17800.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17800.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17900.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17900.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-17900.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-18000.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-18000.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/conv.ckpt-18000.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/micro_conv.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/checkpoints/micro_conv.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/freeze_conv.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/freeze_simple.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_10.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_11.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_12.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_13.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_14.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_3.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_4.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_5.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_6.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_7.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_8.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/conv_9.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_120.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_160.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_20.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_240.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_280.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_290.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_300.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_310.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_320.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_360.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_40.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_400.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_440.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/models/fc_80.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/train_conv.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/train_fourinput.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/train_simple.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/train_tf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tfmicro/train/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/advanced_ml.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/context.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/context.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/sdtensor.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/tensor.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/tensor.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/uTensorBase.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/uTensorBase.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/vm.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/core/vm.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/frozen_model.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/frozen_model.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/frozen_model_weight.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/loaders/tensorIdxImporter.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/loaders/tensorIdxImporter.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/ArrayOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/MathOps.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/MathOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/MatrixOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/NnOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/cmsis_ops/CmsisConvolution.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/cmsis_ops/CmsisPoolingOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/cmsis_ops/FullyConnectedOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/cmsis_ops/activationOps.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/ops/cmsis_ops/softmax.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/math_utils.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/quantization_utils.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/quantization_utils.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/uTensor_util.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/uTensor_util.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uTensor/uTensor/util/utensor_string.hpp" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +277,7 @@
       <workItem from="1574100386359" duration="17155000" />
       <workItem from="1574117880848" duration="457000" />
       <workItem from="1574176192811" duration="2668000" />
+      <workItem from="1574258798930" duration="7044000" />
     </task>
     <servers />
   </component>

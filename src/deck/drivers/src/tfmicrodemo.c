@@ -9,13 +9,11 @@ how fast the chip can process these neural networks */
 #include "task.h"
 
 #include "debug.h"
-#include "machinelearning.h"
 #include "sysload.h"
 #include "sequencelib.h"
 #include "sensor.h"
-
+#include "mlp_inference.h"
 // uTensor related machine learning
-#include "advanced_ml.h"
 
 
 #define TENSOR_ALLOC_SIZE 6000
@@ -54,17 +52,6 @@ void yaw_decr(int *yaw){
     return;
 }
 
-int argmax_float(float* array, int size){
-    float max = array[0];
-    int max_ind = 0;
-    for (int i = 1; i< size; i++){
-        if (array[i]>max){
-            max = array[i];
-            max_ind = i;
-        }
-    }
-    return max_ind;
-}
 
 
 static void check_multiranger_online() {
@@ -136,7 +123,7 @@ static void tfMicroDemoTask()
 //    DEBUG_PRINT("Time taken for %d inferences: %lld us\n", num_runs, (end_time - start_time));
 //    DEBUG_PRINT("Time taken per inference: %lld us\n", (end_time - start_time) / num_runs);
 //
-//    DEBUG_PRINT("FINISHED\n");
+    DEBUG_PRINT("FINISHED\n");
 
 
 
@@ -148,7 +135,7 @@ static void tfMicroDemoTask()
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
     float HOVER_HEIGHT = 0.8;
     // Start in the air before doing ML
-    //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
+    flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
     distances d;
     getDistances(&d);
@@ -167,7 +154,6 @@ static void tfMicroDemoTask()
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
 
-    // CWrappedRamTensor* wrapped_input = CWrappedRamTensor_create(input);
 
     for (int j = 0; j < 10000; j++) {
         getDistances(&d);
@@ -185,6 +171,8 @@ static void tfMicroDemoTask()
         old_dist = dist;
         //vTaskDelay(M2T(300));
         //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
+
+
         input[0] = d.right * 0.001;
         input[1] = d.front * 0.001;
         input[2] = d.left * 0.001;
@@ -193,33 +181,24 @@ static void tfMicroDemoTask()
         input[5] = 2 * c_f - 1;
 
 
-//        {
-//            vTaskDelay(M2T(200));
-//            // inference(input, 6, &r[0]);
-//            CWrappedRamTensor *wrapped_input = CWrappedRamTensor_create(&input[0]);
-//
-//            DEBUG_PRINT("Free heap: %d bytes\n", xPortGetFreeHeapSize());
-//
-//            // CWrappedRamTensor_set(wrapped_input, &input[0]);
-//            inference_new(wrapped_input, &r[0]);
+
+
+
+//        if (DEBUG_VALUES) {
+//            for (int i = 0; i < 6; i++) {
+//                DEBUG_PRINT("%f \n", input[i]);
+//            }
 //        }
-
-        {
-            vTaskDelay(M2T(50));
-            inference_test(input, 6, &r[0]);
-            DEBUG_PRINT("Iteration %d\n", j);
-        }
-
-        if (DEBUG_VALUES) {
-            for (int i = 0; i < 6; i++) {
-                DEBUG_PRINT("%f \n", input[i]);
-            }
-        }
 
 
         // DEBUG_PRINT("%i \n",res);
         // command = argmax(res, 3);
-        command = argmax_float(r, 3);
+
+        command = float_inference(input, 6);
+//        command = 0;
+        DEBUG_PRINT("command: %i \n",command);
+
+//        command = argmax_float(r, 3);
 
 
 
