@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/weights.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/weights.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -102,7 +101,7 @@
       <workItem from="1574117880848" duration="457000" />
       <workItem from="1574176192811" duration="2668000" />
       <workItem from="1574258798930" duration="9511000" />
-      <workItem from="1574348791489" duration="2862000" />
+      <workItem from="1574348791489" duration="3901000" />
     </task>
     <servers />
   </component>
