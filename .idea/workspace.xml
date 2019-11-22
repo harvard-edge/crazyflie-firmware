@@ -10,7 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/weights.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/weights.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -101,7 +104,7 @@
       <workItem from="1574176192811" duration="2668000" />
       <workItem from="1574258798930" duration="9511000" />
       <workItem from="1574348791489" duration="5189000" />
-      <workItem from="1574433009197" duration="1049000" />
+      <workItem from="1574433009197" duration="6605000" />
     </task>
     <servers />
   </component>

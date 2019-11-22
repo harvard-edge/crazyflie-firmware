@@ -6,6 +6,7 @@
 #include "mlp_inference.h"
 #include "weights.h"
 #include "debug.h"
+#include "FreeRTOS.h"
 
 #define LAYER_1_SIZE 20
 #define LAYER_2_SIZE 20
@@ -25,6 +26,7 @@ int float_inference(float* input, int size){
     float_relu(layer_1,LAYER_1_SIZE);
 
     float_matmul(layer_1, LAYER_1_SIZE,weights_2,400,layer_2,LAYER_2_SIZE);
+    vTaskDelay(M2T(50));
     float_bias_add(layer_2, LAYER_2_SIZE, bias_2);
     float_relu(layer_2,LAYER_2_SIZE);
 
@@ -32,7 +34,6 @@ int float_inference(float* input, int size){
     float_bias_add(layer_3, LAYER_3_SIZE, bias_3);
 
     int command = argmax_float(layer_3,3);
-    DEBUG_PRINT("%f %f %f \n",layer_3[0],layer_3[1],layer_3[2]);
 
     zero_tensor(layer_1,LAYER_1_SIZE);
     zero_tensor(layer_2,LAYER_2_SIZE);

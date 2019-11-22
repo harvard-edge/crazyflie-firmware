@@ -22,8 +22,8 @@ how fast the chip can process these neural networks */
 #define NUM_STATES 4
 #define YAW_INCR 8
 //#define SENS_MIN 35000
-#define SENS_MIN 2000
-#define SENS_MAX 20000
+#define SENS_MIN 0
+#define SENS_MAX 55000
 #define TRUE 1
 #define FALSE 0
 #define GOAL_THRES 245
@@ -133,7 +133,7 @@ static void tfMicroDemoTask()
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
-    float HOVER_HEIGHT = 0.8;
+    float HOVER_HEIGHT = 0.5;
     // Start in the air before doing ML
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
@@ -149,13 +149,15 @@ static void tfMicroDemoTask()
     float dist = 0;
     int yaw = 0;
     int command = 0;
-    float ESCAPE_SPEED = 0.5;
+    float ESCAPE_SPEED = 0.3;
     uint8_t goal_count = 0;
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
 
+    int xStart, xEnd, xDifference;
 
     for (int j = 0; j < 10000; j++) {
+        xStart = xTaskGetTickCount();
         getDistances(&d);
         if (d.up / 10 < 20) {
             break;
@@ -186,21 +188,20 @@ static void tfMicroDemoTask()
         command = float_inference(input, 6);
         //DEBUG_PRINT("command: %i \n",command);
 
-
 		DEBUG_PRINT("Command: %i\n", command);
         switch (command) {
           case 0:
 //              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, (float)(yaw));
               setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
               commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
+   //           vTaskDelay(M2T(50));
               break;
           case 1:
 //              yaw_incr(&yaw);
 //              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
                 commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
+    //          vTaskDelay(M2T(50));
 
 //              vTaskDelay(M2T(100));
               break;
@@ -209,7 +210,7 @@ static void tfMicroDemoTask()
 //                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
                 commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(150));
+         //       vTaskDelay(M2T(50));
 
 //              vTaskDelay(M2T(100));
               break;
@@ -217,9 +218,12 @@ static void tfMicroDemoTask()
 //                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
                 setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
                 commanderSetSetpoint(&setpoint, 3);
-                vTaskDelay(M2T(150));
+               // vTaskDelay(M2T(50));
               break;
       }
+    xEnd = xTaskGetTickCount();
+    xDifference = xEnd - xStart;
+    DEBUG_PRINT( "TIME: %i \n", xDifference );
 //
 }
 

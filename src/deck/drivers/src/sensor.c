@@ -126,7 +126,7 @@ uint16_t read_TSL2591(uint8_t mode)
 //            vTaskDelay(M2T(120));
 //        }
 
-        vTaskDelay(M2T(100));
+      //  vTaskDelay(M2T(100));
         i2cdevRead(I2Cx,TSL2591_ADDR,TSL2591_REGISTER_CHAN0_LOW,2,&y); //chan0 - Full + IR
         i2cdevRead(I2Cx,TSL2591_ADDR,TSL2591_REGISTER_CHAN1_LOW,2,&x); //chan1 - IR only
         //disable();
