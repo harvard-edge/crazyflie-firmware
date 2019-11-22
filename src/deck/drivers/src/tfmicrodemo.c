@@ -22,8 +22,8 @@ how fast the chip can process these neural networks */
 #define NUM_STATES 4
 #define YAW_INCR 8
 //#define SENS_MIN 35000
-#define SENS_MIN 0
-#define SENS_MAX 65000
+#define SENS_MIN 2000
+#define SENS_MAX 20000
 #define TRUE 1
 #define FALSE 0
 #define GOAL_THRES 245
@@ -198,7 +198,7 @@ static void tfMicroDemoTask()
           case 1:
 //              yaw_incr(&yaw);
 //              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 108);
+                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
                 commanderSetSetpoint(&setpoint, 3);
               vTaskDelay(M2T(150));
 
@@ -207,7 +207,7 @@ static void tfMicroDemoTask()
           case 2:
 //                yaw_decr(&yaw);
 //                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -108);
+                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
                 commanderSetSetpoint(&setpoint, 3);
                 vTaskDelay(M2T(150));
 
