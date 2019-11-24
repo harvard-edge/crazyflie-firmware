@@ -15,23 +15,23 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_CORE_API_ERROR_REPORTER_H_
 #define TENSORFLOW_LITE_CORE_API_ERROR_REPORTER_H_
 
-#include <stdarg.h>
+#include <cstdarg>
 
 namespace tflite {
 
-// A functor that reports error to supporting system. Invoked similar to
-// printf.
-//
-// Usage:
-//  ErrorReporter foo;
-//  foo.Report("test %d", 5);
-// or
-//  va_list args;
-//  foo.Report("test %d", args); // where args is va_list
-//
-// Subclass ErrorReporter to provide another reporting destination.
-// For example, if you have a GUI program, you might redirect to a buffer
-// that drives a GUI error log box.
+/// A functor that reports error to supporting system. Invoked similar to
+/// printf.
+///
+/// Usage:
+///  ErrorReporter foo;
+///  foo.Report("test %d", 5);
+/// or
+///  va_list args;
+///  foo.Report("test %d", args); // where args is va_list
+///
+/// Subclass ErrorReporter to provide another reporting destination.
+/// For example, if you have a GUI program, you might redirect to a buffer
+/// that drives a GUI error log box.
 class ErrorReporter {
  public:
   virtual ~ErrorReporter() {}

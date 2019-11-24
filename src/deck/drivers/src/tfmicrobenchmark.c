@@ -17,6 +17,7 @@ how fast the chip can process these neural networks */
 static void tfMicroBenchTask()
 {
 	systemWaitStart();
+	/*
 	DEBUG_PRINT("Original heap space: %d\n", xPortGetFreeHeapSize());
 	consolePrintf("Try allocating actual ML model and tensor intermediaries (fc)\n");
 	const CTfLiteModel* model = CTfLiteModel_create();
@@ -58,7 +59,7 @@ static void tfMicroBenchTask()
 	end = usecTimestamp();
 	DEBUG_PRINT("Elapsed time: %lld\n", (long long) (end - start));
 	DEBUG_PRINT("Are you ready for this?\n");
-
+	*/
 	/**
 	 * Function that checks how long it takes to run ML models given the current
 	 * voltage. We can run the battery dry and see if it changes the amount of time

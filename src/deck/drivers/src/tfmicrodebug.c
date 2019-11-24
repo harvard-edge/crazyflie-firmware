@@ -23,6 +23,7 @@ how fast the chip can process these neural networks */
 static void tfMicroDebugTask()
 {
 	systemWaitStart();
+	/*
 
 	DEBUG_PRINT("Original heap space: %d\n", xPortGetFreeHeapSize());
 	consolePrintf("Try allocating actual ML model and tensor intermediaries (fc)\n");
@@ -64,6 +65,7 @@ static void tfMicroDebugTask()
 	end = usecTimestamp();
 	DEBUG_PRINT("Elapsed time: %lld\n", (long long) (end - start));
 	DEBUG_PRINT("Are you ready for this?\n");
+	*/
 	for (;;) { vTaskDelay(M2T(1000)); }
 }
 

@@ -102,6 +102,7 @@ static void tfMicroDemoTask()
 {
 	static setpoint_t setpoint;
 	systemWaitStart();
+    /*
 
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
@@ -193,10 +194,10 @@ static void tfMicroDemoTask()
                 vTaskDelay(M2T(40));
                 break;
         }
-    }
+    }*/
 
 	// Slowly lower to a safe height before quitting, or else things will break.
-    flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
+    //flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
 	for (;;) { vTaskDelay(M2T(1000)); }
 }
 

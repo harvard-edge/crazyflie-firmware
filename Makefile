@@ -112,20 +112,36 @@ VPATH += src/init src/hal/src src/modules/src src/utils/src src/drivers/bosch/sr
 # Need to compile TF Micro with some limited C++-11 support
 # and standard libraries for math.
 # Add all subdirectories to the include path so we have these headers
-VPATH += tfmicro
-VPATH += tfmicro/third_party
-VPATH += tfmicro/third_party/flatbuffers
-VPATH += tfmicro/third_party/gemmlowp
-VPATH += tfmicro/tensorflow/lite/core/api
-VPATH += tfmicro/tensorflow/lite/c
-VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
-VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
-VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
-VPATH += tfmicro/tensorflow/lite/experimental/micro
-VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
-VPATH += tfmicro/tensorflow/lite/kernels/internal
-VPATH += tfmicro/tensorflow/lite/kernels
+# VPATH += tfmicro
+# VPATH += tfmicro/third_party
+# VPATH += tfmicro/third_party/flatbuffers
+# VPATH += tfmicro/third_party/gemmlowp
+# VPATH += tfmicro/tensorflow/lite/core/api
+# VPATH += tfmicro/tensorflow/lite/c
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
+# VPATH += tfmicro/tensorflow/lite/experimental/micro
+# VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
+# VPATH += tfmicro/tensorflow/lite/kernels/internal
+# VPATH += tfmicro/tensorflow/lite/kernels
 
+VPATH += .
+VPATH += tfmicro/tensorflow
+VPATH += tfmicro/tensorflow/
+VPATH += tfmicro/tensorflow/lite
+VPATH += tfmicro/tensorflow/lite/c
+VPATH += tfmicro/tensorflow/lite/experimental
+VPATH += tfmicro/tensorflow/lite/experimental/micro
+VPATH += tfmicro/tensorflow/lite/experimental/micro/memory_planner
+VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
+VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels/cmsis-nn
+
+VPATH += tfmicro/third_party
+VPATH += tfmicro/third_party/gemmlowp
+VPATH += tfmicro/third_party/flatbuffers
+VPATH += tfmicro/third_party/flatbuffers/include
+VPATH += tfmicro/third_party/flatbuffers/include/flatbuffers
 
 ############### Source files configuration ################
 
@@ -236,28 +252,73 @@ CFLAGS += -D TFMICRO_MODEL=source_seeking
 ######################### TF Micro Compilation ##################
 # Need to compile TF Micro with some limited C++-11 support
 # and standard libraries for math. Add all objects needed for compile.
+# TF_SRCS := \
+# c_api_internal.o \
+# debug_log.o \
+# micro_error_reporter.o \
+# micro_mutable_op_resolver.o \
+# simple_tensor_allocator.o \
+# debug_log_numbers.o \
+# micro_interpreter.o \
+# depthwise_conv.o \
+# softmax.o \
+# all_ops_resolver.o \
+# fully_connected.o \
+# error_reporter.o \
+# flatbuffer_conversions.o \
+# op_resolver.o \
+# kernel_util.o \
+# quantization_util.o \
+# model_settings.o \
+# preprocessor.o \
+# machinelearning.o \
+# tfmicro_models.o \
+# sensor.o
+
 TF_SRCS := \
-c_api_internal.o \
-debug_log.o \
 micro_error_reporter.o \
-micro_mutable_op_resolver.o \
-simple_tensor_allocator.o \
+micro_optional_debug_tools.o \
 debug_log_numbers.o \
 micro_interpreter.o \
-depthwise_conv.o \
+debug_log.o \
+micro_utils.o \
+test_helpers.o \
+micro_mutable_op_resolver.o \
+memory_helpers.o \
+micro_allocator.o \
+simple_memory_allocator.o \
+greedy_memory_planner.o \
+linear_memory_planner.o \
+strided_slice.o \
 softmax.o \
+logistic.o \
+reshape.o \
+conv.o \
+comparisons.o \
 all_ops_resolver.o \
-fully_connected.o \
-error_reporter.o \
-flatbuffer_conversions.o \
-op_resolver.o \
-kernel_util.o \
-quantization_util.o \
-model_settings.o \
-preprocessor.o \
-machinelearning.o \
-tfmicro_models.o \
-sensor.o
+mul.o \
+pack.o \
+unpack.o \
+split.o \
+activations.o \
+prelu.o \
+round.o \
+ceil.o \
+maximum_minimum.o \
+arg_min_max.o \
+dequantize.o \
+svdf.o \
+logical.o \
+elementwise.o \
+floor.o \
+depthwise_conv.o \
+quantize.o \
+pooling.o \
+neg.o \
+add.o \
+scratch_buffer.o \
+fully_connected.o
+
 
 # These probably shouldn't be needed, if you get linking errors add them back
 # feature_provider.o \
@@ -343,12 +404,28 @@ INCLUDES += -I$(LIB)/FatFS
 INCLUDES += -I$(LIB)/vl53l1
 INCLUDES += -I$(LIB)/vl53l1/core/inc
 
+
+################# TF MICRO COMPILATION ########################
 # Add our tfmicro library!
-INCLUDES += -Itfmicro/
+# INCLUDES += -Itfmicro/
+# INCLUDES += -Itfmicro
+# INCLUDES += -Itfmicro/third_party/flatbuffers
+# INCLUDES += -Itfmicro/third_party/flatbuffers/include
+# INCLUDES += -Itfmicro/third_party
+# INCLUDES += -Itfmicro/third_party/gemmlowp
+
+INCLUDES += -Itfmicro/tensorflow/
+INCLUDES += -Itfmicro/tensorflow
+INCLUDES += -Itfmicro/tensorflow/lite/c
+INCLUDES += -Itfmicro/tensorflow/lite
+INCLUDES += -Itfmicro/tensorflow/lite/experimental
+INCLUDES += -Itfmicro/tensorflow/lite/experimental/micro
+INCLUDES += -Itfmicro/tensorflow/lite/experimental/micro/kernels
+
 INCLUDES += -Itfmicro
+INCLUDES += -Itfmicro/third_party
 INCLUDES += -Itfmicro/third_party/flatbuffers
 INCLUDES += -Itfmicro/third_party/flatbuffers/include
-INCLUDES += -Itfmicro/third_party
 INCLUDES += -Itfmicro/third_party/gemmlowp
 
 ifeq ($(DEBUG), 1)
@@ -359,6 +436,9 @@ else
 	# Fail on warnings
   CFLAGS += -Os -g3 
   CXXFLAGS += -Os -g3 
+
+  # TF Micro EDIT
+  CXXFLAGS += -std=gnu++11
 endif
 
 ifeq ($(LTO), 1)

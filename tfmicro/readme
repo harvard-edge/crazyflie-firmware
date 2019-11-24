@@ -1,0 +1,8 @@
+You need to download flatbuffers and gemmlowp.
+here are some links
+
+https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/flatbuffers/archive/v1.11.0.tar.gz
+
+https://github.com/google/gemmlowp/archive/719139ce755a0f31cbf1c37f7f98adcc7fc9f425.zip
+
+need to put this in a folder called third_party

@@ -21,11 +21,11 @@ in C++, and then link it to the main loop later.
 
 // Our machine learning models we're putting in :)
 #include "tfmicro_models.h"
-
+/*
 extern "C" {
-	/**
-	 * TfLiteModel wrapper functions
-	 */
+	
+	// TfLiteModel wrapper functions
+
 	const CTfLiteModel * CTfLiteModel_create() {
 		return reinterpret_cast<const CTfLiteModel*>(
 			::tflite::GetModel(TFMICRO_MODEL));
@@ -41,9 +41,9 @@ extern "C" {
 	}	
 	
 
-	/**
-	 * TF Micro Interpreter wrapper functions
-	 */
+	
+	// TF Micro Interpreter wrapper functions
+	 
 	int CTfInterpreter_create_return_version(const CTfLiteModel* c_model, int alloc_size) {
 		tflite::MicroErrorReporter micro_error_reporter;
 		tflite::ErrorReporter* error_reporter = &micro_error_reporter;
@@ -69,7 +69,7 @@ extern "C" {
 		return model_input->dims->data[dim];
 	}
 
-	/* Actual methods used for inferencing */
+	// Actual methods used for inferencing
 	void CTfInterpreter_simple_fc(const CTfLiteModel* c_model, 
 			uint8_t* tensor, int alloc_size, uint8_t* input, int* result) {
 		tflite::MicroErrorReporter micro_error_reporter;
@@ -97,16 +97,16 @@ extern "C" {
 		}
 	}
 
-	/* Run a single inference on some model, using uint8 quantization.
-		Input: TFLiteModel, already wrapped in C.
-			   tensor: buffer used for performing operations.
-			   alloc_size: memory to allocate for tensor operations
-			   result: address to array to write results into
-		Output:
-			Error code:
-				0: success
-				-1: Evaluation step did not return OK
-	*/
+	// Run a single inference on some model, using uint8 quantization.
+	// 	Input: TFLiteModel, already wrapped in C.
+	// 		   tensor: buffer used for performing operations.
+	// 		   alloc_size: memory to allocate for tensor operations
+	// 		   result: address to array to write results into
+	// 	Output:
+	// 		Error code:
+	// 			0: success
+	// 			-1: Evaluation step did not return OK
+	
 	int inference_uint8(const CTfLiteModel* c_model, 
 			uint8_t* tensor, int alloc_size,
 			uint8_t* input, size_t input_size, int* result) {
@@ -182,3 +182,4 @@ extern "C" int machine_learning_test(int n) {
 extern "C" int testDoubleFunction(int x) {
 	return x * 2;
 };
+*/
