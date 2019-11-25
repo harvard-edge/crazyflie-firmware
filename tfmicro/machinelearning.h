@@ -19,11 +19,13 @@ int machine_learning_test(int n);
 struct CTfLiteModel; // An opaque type that we'll use as a handle
 typedef struct CTfLiteModel CTfLiteModel;
 const CTfLiteModel* CTfLiteModel_create();
-void CTfLiteModel_destroy(CTfLiteModel*);
-int CTfLiteModel_version(CTfLiteModel* v);
+void CTfLiteModel_destroy(const CTfLiteModel*);
+int CTfLiteModel_check(const CTfLiteModel*);
+int CTfLiteModel_version(const CTfLiteModel* v);
 int CTfLiteModel_input_size(CTfLiteModel* v);
 
 
+// Wrapper class for the TFMicro interpreter
 struct CTfInterpreter; // An opaque type that we'll use as a handle
 typedef struct CTfInterpreter CTfInterpreter;
 int CTfInterpreter_create_return_version(const CTfLiteModel*, int);

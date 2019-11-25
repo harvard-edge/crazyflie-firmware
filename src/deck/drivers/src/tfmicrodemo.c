@@ -102,8 +102,21 @@ static void tfMicroDemoTask()
 {
 	static setpoint_t setpoint;
 	systemWaitStart();
-    /*
 
+
+
+	const CTfLiteModel* model = CTfLiteModel_create();
+    DEBUG_PRINT("CREATED THE MODEL\n");
+    int check = CTfLiteModel_check(model);
+    DEBUG_PRINT("Check: %d\n", check);
+    int version = CTfLiteModel_version(model);
+    DEBUG_PRINT("Version: %d\n", version);
+	CTfLiteModel_destroy(model);
+    DEBUG_PRINT("Destroyed.\n");
+
+
+
+/*
 	const CTfLiteModel* model = CTfLiteModel_create();
 	uint8_t tensor_alloc[TENSOR_ALLOC_SIZE];
 
