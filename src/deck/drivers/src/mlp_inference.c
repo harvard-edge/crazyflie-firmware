@@ -26,7 +26,7 @@ int float_inference(float* input, int size){
     float_relu(layer_1,LAYER_1_SIZE);
 
     float_matmul(layer_1, LAYER_1_SIZE,weights_2,400,layer_2,LAYER_2_SIZE);
-    vTaskDelay(M2T(50));
+    vTaskDelay(M2T(10));
     float_bias_add(layer_2, LAYER_2_SIZE, bias_2);
     float_relu(layer_2,LAYER_2_SIZE);
 

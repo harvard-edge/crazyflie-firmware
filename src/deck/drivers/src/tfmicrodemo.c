@@ -23,7 +23,7 @@ how fast the chip can process these neural networks */
 #define YAW_INCR 8
 //#define SENS_MIN 35000
 #define SENS_MIN 0
-#define SENS_MAX 55000
+#define SENS_MAX 65000
 #define TRUE 1
 #define FALSE 0
 #define GOAL_THRES 245
@@ -133,7 +133,7 @@ static void tfMicroDemoTask()
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
-    float HOVER_HEIGHT = 0.5;
+    float HOVER_HEIGHT = 1.1;
     // Start in the air before doing ML
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
@@ -149,7 +149,7 @@ static void tfMicroDemoTask()
     float dist = 0;
     int yaw = 0;
     int command = 0;
-    float ESCAPE_SPEED = 0.3;
+    float ESCAPE_SPEED = 1.0;
     uint8_t goal_count = 0;
     uint8_t found_goal = FALSE;
     uint8_t rand_count = 0;
@@ -163,12 +163,14 @@ static void tfMicroDemoTask()
             break;
         }
 
-        sensor_read = read_TSL2591(sensor_mode);
-        DEBUG_PRINT("sensor: %i \n",sensor_read);
-        dist = get_distance(sensor_read);
 
-        c = dist;
-        c_f = 0.9 * c_f + 0.1 * c;
+        if(j%10==0) {
+            sensor_read = read_TSL2591(sensor_mode);
+            DEBUG_PRINT("sensor: %i \n",sensor_read);
+            dist = get_distance(sensor_read);
+            c = dist;
+            c_f = 0.9 * c_f + 0.1 * c;
+        }
 
         old_dist = dist;
         //vTaskDelay(M2T(300));
@@ -199,7 +201,7 @@ static void tfMicroDemoTask()
           case 1:
 //              yaw_incr(&yaw);
 //              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
+                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
                 commanderSetSetpoint(&setpoint, 3);
     //          vTaskDelay(M2T(50));
 
@@ -208,7 +210,7 @@ static void tfMicroDemoTask()
           case 2:
 //                yaw_decr(&yaw);
 //                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
+                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
                 commanderSetSetpoint(&setpoint, 3);
          //       vTaskDelay(M2T(50));
 
