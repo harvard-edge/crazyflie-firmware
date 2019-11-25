@@ -112,21 +112,7 @@ VPATH += src/init src/hal/src src/modules/src src/utils/src src/drivers/bosch/sr
 # Need to compile TF Micro with some limited C++-11 support
 # and standard libraries for math.
 # Add all subdirectories to the include path so we have these headers
-# VPATH += tfmicro
-# VPATH += tfmicro/third_party
-# VPATH += tfmicro/third_party/flatbuffers
-# VPATH += tfmicro/third_party/gemmlowp
-# VPATH += tfmicro/tensorflow/lite/core/api
-# VPATH += tfmicro/tensorflow/lite/c
-# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples/micro_speech
-# VPATH += tfmicro/tensorflow/lite/experimental/micro/examples
-# VPATH += tfmicro/tensorflow/lite/experimental/micro/testing
-# VPATH += tfmicro/tensorflow/lite/experimental/micro
-# VPATH += tfmicro/tensorflow/lite/experimental/micro/kernels
-# VPATH += tfmicro/tensorflow/lite/kernels/internal
-# VPATH += tfmicro/tensorflow/lite/kernels
-
-VPATH += .
+VPATH += tfmicro
 VPATH += tfmicro/tensorflow
 VPATH += tfmicro/tensorflow/
 VPATH += tfmicro/tensorflow/lite
@@ -252,29 +238,6 @@ CFLAGS += -D TFMICRO_MODEL=source_seeking
 ######################### TF Micro Compilation ##################
 # Need to compile TF Micro with some limited C++-11 support
 # and standard libraries for math. Add all objects needed for compile.
-# TF_SRCS := \
-# c_api_internal.o \
-# debug_log.o \
-# micro_error_reporter.o \
-# micro_mutable_op_resolver.o \
-# simple_tensor_allocator.o \
-# debug_log_numbers.o \
-# micro_interpreter.o \
-# depthwise_conv.o \
-# softmax.o \
-# all_ops_resolver.o \
-# fully_connected.o \
-# error_reporter.o \
-# flatbuffer_conversions.o \
-# op_resolver.o \
-# kernel_util.o \
-# quantization_util.o \
-# model_settings.o \
-# preprocessor.o \
-# machinelearning.o \
-# tfmicro_models.o \
-# sensor.o
-
 TF_SRCS := \
 micro_error_reporter.o \
 micro_optional_debug_tools.o \
@@ -317,7 +280,8 @@ pooling.o \
 neg.o \
 add.o \
 scratch_buffer.o \
-fully_connected.o
+fully_connected.o \
+machinelearning.o
 
 
 # These probably shouldn't be needed, if you get linking errors add them back
