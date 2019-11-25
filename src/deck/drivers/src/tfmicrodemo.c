@@ -111,8 +111,27 @@ static void tfMicroDemoTask()
     DEBUG_PRINT("Check: %d\n", check);
     int version = CTfLiteModel_version(model);
     DEBUG_PRINT("Version: %d\n", version);
+
+
+    uint8_t tensor_arena[10000];
+    for (int i = 0; i < 6; i++) {
+        uint8_t arr[6] = {i, 0, 1, 2, 3, 4, 5};
+        uint8_t output[6];
+
+        inference(model, tensor_arena, 10000,
+            arr, output, 6);
+        
+        DEBUG_PRINT("ONEPASS.\n");
+    }
+
+
+
+
+
 	CTfLiteModel_destroy(model);
     DEBUG_PRINT("Destroyed.\n");
+
+
 
 
 

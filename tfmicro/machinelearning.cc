@@ -17,19 +17,32 @@ in C++, and then link it to the main loop later.
 // Our machine learning models we're putting in :)
 #include "tfmicro_models.h"
 
+
 extern "C" {
 
-	void setup() {
+	void inference(const CTfLiteModel* wrapped_model,
+		uint8_t* tensor_arena, int arena_size,
+		uint8_t* input_data, uint8_t* output_data, int output_size) {
 		tflite::ErrorReporter* error_reporter = nullptr;
 		tflite::MicroInterpreter* interpreter = nullptr;
 		TfLiteTensor* input = nullptr;
 		TfLiteTensor* output = nullptr;
 		int inference_count = 0;
 
-		// Create an area of memory to use for input, output, and intermediate arrays.
-		// Finding the minimum value for your model may require some trial and error.
-		constexpr int kTensorArenaSize = 2 * 1024;
-		uint8_t tensor_arena[kTensorArenaSize];
+
+		tflite::ops::micro::AllOpsResolver resolver;
+		const tflite::Model* model = reinterpret_cast<const tflite::Model*>(wrapped_model);
+		tflite::MicroInterpreter interpret(model, resolver, tensor_arena, arena_size, error_reporter);
+		interpret.AllocateTensors();
+
+		input = interpret.input(0);
+		memcpy(input->data.uint8, input_data, input->bytes);
+		interpret.Invoke();
+		output = interpret.output(0);
+
+		for (int i = 0; i < output_size; i++) {
+			output_data[i] = output->data.uint8[i];
+		}
 	}
 
 	const CTfLiteModel* CTfLiteModel_create() {
@@ -57,7 +70,6 @@ extern "C" {
 		delete model;
 	}
 
-	
 }
 
 
