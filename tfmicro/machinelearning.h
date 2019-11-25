@@ -14,6 +14,8 @@ extern "C" {
 int testDoubleFunction(int x);
 int machine_learning_test(int n);
 
+
+// Wrapper class for the TFMicro model
 struct CTfLiteModel; // An opaque type that we'll use as a handle
 typedef struct CTfLiteModel CTfLiteModel;
 const CTfLiteModel* CTfLiteModel_create();

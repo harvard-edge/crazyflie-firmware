@@ -6,30 +6,66 @@ Cortex M4, we still have to link it to the main loop in the firmware.
 Approach will be to expose the common functions we need in C, compile TF Micro
 in C++, and then link it to the main loop later.
 ==============================================================================*/
-
-#include "tensorflow/lite/experimental/micro/examples/micro_speech/recognize_commands.h"
 #include "tensorflow/lite/experimental/micro/kernels/all_ops_resolver.h"
 #include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
 #include "tensorflow/lite/experimental/micro/micro_interpreter.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
-#include "eprintf.h"
-#include "console.h"
 #include "machinelearning.h"
-#include "mnistdata.h"
 
 // Our machine learning models we're putting in :)
 #include "tfmicro_models.h"
+
+extern "C" {
+
+	void setup() {
+		tflite::ErrorReporter* error_reporter = nullptr;
+		tflite::MicroInterpreter* interpreter = nullptr;
+		TfLiteTensor* input = nullptr;
+		TfLiteTensor* output = nullptr;
+		int inference_count = 0;
+
+		// Create an area of memory to use for input, output, and intermediate arrays.
+		// Finding the minimum value for your model may require some trial and error.
+		constexpr int kTensorArenaSize = 2 * 1024;
+		uint8_t tensor_arena[kTensorArenaSize];
+	}
+
+	const CTfLiteModel* CTfLiteModel_create() {
+		const tflite::Model* model = nullptr;
+		model = tflite::GetModel(TFMICRO_MODEL);
+		return reinterpret_cast<const CTfLiteModel*>(model);
+	}
+
+	// check to see if our version of tflite matches the model
+	int CTfLiteModel_check(CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+		if (model->version() != TFLITE_SCHEMA_VERSION) {
+			return 1;
+		}
+    	return 0;
+	}
+
+	int CTfLiteModel_version(CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+		return model->version();
+	}
+
+	void CTfLiteModel_destroy(CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+		delete model;
+	}
+
+	
+}
+
+
 /*
 extern "C" {
 	
 	// TfLiteModel wrapper functions
 
-	const CTfLiteModel * CTfLiteModel_create() {
-		return reinterpret_cast<const CTfLiteModel*>(
-			::tflite::GetModel(TFMICRO_MODEL));
-	}
 
 	void CTfLiteModel_destroy(CTfLiteModel* v) {
 		delete reinterpret_cast<tflite::Model*>(v);
