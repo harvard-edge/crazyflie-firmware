@@ -34,26 +34,26 @@ extern "C" {
 
 	const CTfLiteModel* CTfLiteModel_create() {
 		const tflite::Model* model = nullptr;
-		model = tflite::GetModel(TFMICRO_MODEL);
+		model = tflite::GetModel(source_seeking);
 		return reinterpret_cast<const CTfLiteModel*>(model);
 	}
 
 	// check to see if our version of tflite matches the model
-	int CTfLiteModel_check(CTfLiteModel* wrapped_model) {
-		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+	int CTfLiteModel_check(const CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<const tflite::Model*>(wrapped_model);
 		if (model->version() != TFLITE_SCHEMA_VERSION) {
 			return 1;
 		}
     	return 0;
 	}
 
-	int CTfLiteModel_version(CTfLiteModel* wrapped_model) {
-		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+	int CTfLiteModel_version(const CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<const tflite::Model*>(wrapped_model);
 		return model->version();
 	}
 
-	void CTfLiteModel_destroy(CTfLiteModel* wrapped_model) {
-		auto model = reinterpret_cast<tflite::Model*>(wrapped_model);
+	void CTfLiteModel_destroy(const CTfLiteModel* wrapped_model) {
+		auto model = reinterpret_cast<const tflite::Model*>(wrapped_model);
 		delete model;
 	}
 

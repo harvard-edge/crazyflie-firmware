@@ -281,7 +281,8 @@ neg.o \
 add.o \
 scratch_buffer.o \
 fully_connected.o \
-machinelearning.o
+machinelearning.o \
+tfmicro_models.o
 
 
 # These probably shouldn't be needed, if you get linking errors add them back
