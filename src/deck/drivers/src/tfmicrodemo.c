@@ -117,8 +117,8 @@ static void tfMicroDemoTask()
 	static setpoint_t setpoint;
 	systemWaitStart();
 
-	float ESCAPE_SPEED = 0.2;
-    float HOVER_HEIGHT = 0.8;
+	float ESCAPE_SPEED = 1.0;
+    float HOVER_HEIGHT = 1.0;
     float rotate_threshold = 2.0;
     // Start in the air before doing ML
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
@@ -126,7 +126,7 @@ static void tfMicroDemoTask()
     distances d;
     getDistances(&d);
     float front_sensor = d.front*0.001;
-    float yaw = 0;
+    int yaw = 0;
     srand(time(NULL));
     int r = rand();
 
@@ -143,7 +143,7 @@ static void tfMicroDemoTask()
         front_sensor = d.front*0.001;    // used for obs avoidance
 
         if (front_sensor < rotate_threshold) {
-            yaw  = rand()%180;
+            yaw  = rand()%5;
             command = 1;
         }
         else{
@@ -154,14 +154,16 @@ static void tfMicroDemoTask()
 
         switch (command) {
           case 0:
-              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, yaw);
+              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
               commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(150));
+              vTaskDelay(M2T(100));
               break;
           case 1:
-              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,yaw);
+              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,54);
               commanderSetSetpoint(&setpoint, 3);
-              vTaskDelay(M2T(1000));
+              for (int i = 0; i<yaw;i++) {
+                  vTaskDelay(M2T(100));
+              }
               break;
       }
 }

@@ -57,8 +57,8 @@ void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float y
     setpoint->position.z = z;
 
 //    setpoint->mode.yaw = modeAbs;
-//    setpoint->attitude.yaw = yawrate;
     setpoint->mode.yaw = modeVelocity;
+//    setpoint->attitude.yaw = yawrate;
     setpoint->attitudeRate.yaw = yawrate;
 
     setpoint->mode.x = modeVelocity;
