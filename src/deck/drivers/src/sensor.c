@@ -94,7 +94,7 @@ void TSL2591_init(void){
     // writing gain and integration to device
     enable();
     if(i2cdevWriteByte(I2Cx, TSL2591_ADDR, TSL2591_COMMAND_BIT | TSL2591_REGISTER_CONTROL,
-                       TSL2591_INTEGRATIONTIME_100MS | TSL2591_GAIN_LOW)){
+                       TSL2591_INTEGRATIONTIME_200MS | TSL2591_GAIN_LOW)){
         disable();
         DEBUG_PRINT("Gain and integration time set. \n");
     }

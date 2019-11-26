@@ -133,7 +133,7 @@ static void tfMicroDemoTask()
     uint16_t sensor_read = 0;
     uint8_t sensor_mode = 0;
 	DEBUG_PRINT("Starting the advanced machine learning...\n");
-    float HOVER_HEIGHT = 1.1;
+    float HOVER_HEIGHT = 0.9;
     // Start in the air before doing ML
     //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
