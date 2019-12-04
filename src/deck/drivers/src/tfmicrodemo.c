@@ -143,8 +143,8 @@ static void tfMicroDemoTask()
         front_sensor = d.front*0.001;    // used for obs avoidance
 
         if (front_sensor < rotate_threshold) {
-            yaw  = rand()%5;
-            command = 1;
+            yaw  = rand()%33;
+            command = rand()%2+1;
         }
         else{
             command = 0;
@@ -159,12 +159,19 @@ static void tfMicroDemoTask()
               vTaskDelay(M2T(100));
               break;
           case 1:
-              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,54);
-              commanderSetSetpoint(&setpoint, 3);
               for (int i = 0; i<yaw;i++) {
+                  setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,54);
+                  commanderSetSetpoint(&setpoint, 3);
                   vTaskDelay(M2T(100));
               }
               break;
+            case 2:
+                for (int i = 0; i<yaw;i++) {
+                    setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,-54);
+                    commanderSetSetpoint(&setpoint, 3);
+                    vTaskDelay(M2T(100));
+                }
+                break;
       }
 }
 
