@@ -12,10 +12,10 @@
     <list default="true" id="abea0739-7358-436c-91be-44c814297137" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/mlp_inference.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/sensor.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deck/drivers/src/tfmicrodemo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/interface/pid.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/interface/pid.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/src/position_controller_pid.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/src/position_controller_pid.c" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,9 +23,6 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="crazyflie-firmware" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,25 +38,18 @@
     </option>
   </component>
   <component name="ProjectId" id="1OWLUPWykAZYhoD2CgqObXiWCJ1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -106,23 +96,35 @@
       <workItem from="1574348791489" duration="5189000" />
       <workItem from="1574433009197" duration="6605000" />
       <workItem from="1574783985113" duration="1037000" />
+      <workItem from="1594463875321" duration="3554000" />
+      <workItem from="1595578242457" duration="5329000" />
+      <workItem from="1596450437465" duration="1294000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="651" y="292" width="618" height="522" key="find.popup" timestamp="1595589650048">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="651" y="292" width="618" height="522" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1595589650048" />
+    <state x="144" y="252" key="run.anything.popup" timestamp="1595584100312">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="144" y="252" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1595584100312" />
   </component>
 </project>

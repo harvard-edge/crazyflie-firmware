@@ -33,6 +33,7 @@ int float_inference(float* input, int size){
     float_matmul(layer_2, LAYER_2_SIZE,weights_3,60,layer_3,LAYER_3_SIZE);
     float_bias_add(layer_3, LAYER_3_SIZE, bias_3);
 
+    DEBUG_PRINT("[%f,%f,%f]\n ",layer_3[0],layer_3[1],layer_3[2]);
     int command = argmax_float(layer_3,3);
 
     zero_tensor(layer_1,LAYER_1_SIZE);

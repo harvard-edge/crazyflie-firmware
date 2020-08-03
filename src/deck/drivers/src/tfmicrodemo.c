@@ -4,7 +4,7 @@ how fast the chip can process these neural networks */
 #include "system.h"
 #include "commander.h"
 #include "range.h"  // get the 6axis distance measurements
-
+#include "log.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -13,6 +13,7 @@ how fast the chip can process these neural networks */
 #include "sequencelib.h"
 #include "sensor.h"
 #include "mlp_inference.h"
+#include "deck_analog.h"
 // uTensor related machine learning
 
 
@@ -32,6 +33,8 @@ how fast the chip can process these neural networks */
 #define RAND_ACTION_RATE 30
 
 #define DEBUG_VALUES false
+
+float R_s;
 
 void yaw_incr(int *yaw){
     int yaw_out = *yaw + YAW_INCR;
@@ -102,132 +105,35 @@ static void update_state(uint8_t *meas_array, distances d,uint8_t dist){
 
 static void tfMicroDemoTask()
 {
-	static setpoint_t setpoint;
+    static setpoint_t setpoint;
 	systemWaitStart();
 
+    uint32_t pin = 10;
+    int r[3];
+    float HOVER_HEIGHT = 0.8;
+    float raw_read;
 
-
-//    DEBUG_PRINT("Now trying to call uTensor\n");
-//    uint64_t start_time, end_time;
-//    int num_runs = 20;
-//
-//    start_time = usecTimestamp();
-//    float test_measurements[6];
-//    for (int i = 0 ; i < num_runs; i++) {
-//        for (int j = 0; j < 6; j++) {
-//            test_measurements[j] = i * 0.3;
-//        }
-//        int res = inference(test_measurements, 5);
-//    }
-//    end_time = usecTimestamp();
-//    DEBUG_PRINT("Time taken for %d inferences: %lld us\n", num_runs, (end_time - start_time));
-//    DEBUG_PRINT("Time taken per inference: %lld us\n", (end_time - start_time) / num_runs);
-//
-    DEBUG_PRINT("FINISHED\n");
-
-
-
-
-	float r[3];
-	float input[6] = {0.599,0.325999,0.08,0.32,0.74,0.74};
-    uint16_t sensor_read = 0;
-    uint8_t sensor_mode = 0;
-	DEBUG_PRINT("Starting the advanced machine learning...\n");
-    float HOVER_HEIGHT = 0.9;
-    // Start in the air before doing ML
-    //flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
+    flyVerticalInterpolated(0.0f, HOVER_HEIGHT, 6000.0f);
     vTaskDelay(M2T(500));
     distances d;
     getDistances(&d);
-    TSL2591_init();
-    uint8_t rand_arr[10] = {2, 2, 1, 1, 2, 1, 1, 1, 2, 1};
 
-    float c = 0;
-    float c_f = 1.0;
-
-    float old_dist = 0;
-    float dist = 0;
-    int yaw = 0;
-    int command = 0;
-    float ESCAPE_SPEED = 1.0;
-    uint8_t goal_count = 0;
-    uint8_t found_goal = FALSE;
-    uint8_t rand_count = 0;
-
-    int xStart, xEnd, xDifference;
-
-    for (int j = 0; j < 10000; j++) {
-        xStart = xTaskGetTickCount();
+    for (int j = 0; j < 100000; j++) {
         getDistances(&d);
-        if (d.up / 10 < 20) {
+
+        if (d.front/10 <20)
+        {
             break;
         }
+        raw_read = analogReadVoltage(pin);
+        DEBUG_PRINT("Raw read %f \n",raw_read);
+        R_s = (3.0/raw_read-1)*70;
+//        DEBUG_PRINT("Gas read: %f \n",R_s);
+        setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
+        commanderSetSetpoint(&setpoint, 3);
+        vTaskDelay(M2T(150));
 
-
-        if(j%10==0) {
-            sensor_read = read_TSL2591(sensor_mode);
-            DEBUG_PRINT("sensor: %i \n",sensor_read);
-            dist = get_distance(sensor_read);
-            c = dist;
-            c_f = 0.9 * c_f + 0.1 * c;
-        }
-
-        old_dist = dist;
-        //vTaskDelay(M2T(300));
-        //DEBUG_PRINT("FRONT : %f\n",(float)(d.front)*0.001);
-
-
-        input[0] = d.right * 0.001;
-        input[1] = d.front * 0.001;
-        input[2] = d.left * 0.001;
-        input[3] = d.back * 0.001;
-        input[4] = (c - c_f)/c_f;
-        input[5] = 2 * c_f - 1;
-
-
-
-
-        command = float_inference(input, 6);
-        //DEBUG_PRINT("command: %i \n",command);
-
-		DEBUG_PRINT("Command: %i\n", command);
-        switch (command) {
-          case 0:
-//              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, (float)(yaw));
-              setHoverSetpoint(&setpoint, ESCAPE_SPEED, 0, HOVER_HEIGHT, 0);
-              commanderSetSetpoint(&setpoint, 3);
-   //           vTaskDelay(M2T(50));
-              break;
-          case 1:
-//              yaw_incr(&yaw);
-//              setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT,(float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, -54);
-                commanderSetSetpoint(&setpoint, 3);
-    //          vTaskDelay(M2T(50));
-
-//              vTaskDelay(M2T(100));
-              break;
-          case 2:
-//                yaw_decr(&yaw);
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 54);
-                commanderSetSetpoint(&setpoint, 3);
-         //       vTaskDelay(M2T(50));
-
-//              vTaskDelay(M2T(100));
-              break;
-          default:
-//                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, (float)(yaw));
-                setHoverSetpoint(&setpoint, 0, 0, HOVER_HEIGHT, 0);
-                commanderSetSetpoint(&setpoint, 3);
-               // vTaskDelay(M2T(50));
-              break;
-      }
-    xEnd = xTaskGetTickCount();
-    xDifference = xEnd - xStart;
-    DEBUG_PRINT( "TIME: %i \n", xDifference );
-//
-}
+    }
 
   // flyVerticalInterpolated(HOVER_HEIGHT, 0.1f, 1000.0f);
 	for (;;) { vTaskDelay(M2T(1000)); }
@@ -255,3 +161,7 @@ const DeckDriver tf_micro_demo = {
 };
 
 DECK_DRIVER(tf_micro_demo);
+
+LOG_GROUP_START(gas)
+LOG_ADD(LOG_FLOAT,R,&R_s)
+LOG_GROUP_STOP(gas)
